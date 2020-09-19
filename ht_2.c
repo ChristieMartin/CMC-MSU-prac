@@ -12,6 +12,10 @@ int main()
         if (end == size){
             size = 2 * size + 1;
             s1 = realloc(s1, size);
+            if (s1 == NULL) {
+                printf("Not enough memory");
+                return 2;
+            }
         }
         if (ch == '\n'){
             if (end - beg > max){
