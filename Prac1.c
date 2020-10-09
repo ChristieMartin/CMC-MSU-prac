@@ -71,18 +71,6 @@ int treemax(struct Tree* t){
     return max;
 }
 
-void treeprint(struct Tree* p, int count, FILE * f, int level)
-{
-    if (p != NULL) {
-        for(int i = 0; i < level; i++){
-            fputc('-', f);
-        }
-        fprintf(f, "%s %4d     %f\n", p -> word, p -> cnt, (double)p -> cnt / count);
-        treeprint(p -> right, count, f, level + 1);
-        treeprint(p -> left, count, f, level + 1);
-    } 
-}
-
 void printleaf(struct Tree* t, int num, int count, FILE* f){
     if (t != NULL){
         if (t -> cnt == num) {
@@ -93,7 +81,7 @@ void printleaf(struct Tree* t, int num, int count, FILE* f){
     }
 }
 
-struct Tree* treeprint2(struct Tree* t, FILE* f) {
+struct Tree* treeprint(struct Tree* t, FILE* f) {
     int max = treemax(t);
     int count = treecount(t);
     for(int i = max; i >= 1; i--) {
@@ -184,11 +172,9 @@ int main(int argc, char *argv[]) {
     }
 
     free(w);
-    //treeprint(t, treecount(t), f2, 0);
-    treeprint2(t,f2);
+    treeprint(t,f2);
     treedel(t);
     fclose(f1);
     fclose(f2);
-    //printf("\n");
     return 0;
 }
