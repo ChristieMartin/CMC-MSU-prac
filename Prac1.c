@@ -23,6 +23,7 @@ struct Tree* treeadd(struct Tree* t, char *w) {
             printf("memory error");
             exit(2);
         }
+	w = strcat(w, "\0");
         t -> word = w;
         t -> cnt = 1;
         t -> right = t -> left = NULL;
