@@ -15,42 +15,22 @@ struct Tree *talloc(void)
  return (struct Tree *) malloc(sizeof(struct Tree));
 }
 
-char* sdup(char *s)
-{
- char *p;
- p = (char *) malloc(strlen(s)+1);
- if (p != NULL)
-    strcpy(p, s);
-else {
-    printf("memory error");
-    exit;
-}
- return p;
-}
-
-
 struct Tree* treeadd(struct Tree* t, char *w) {
     int comp;
     if (t == NULL) {
         t = talloc();
         if (t == NULL) {
             printf("memory error");
-            exit;
+            exit(2);
         }
-        
-        t -> word = sdup(w);
+        t -> word = w;
         t -> cnt = 1;
         t -> right = t -> left = NULL;
     } else if ((comp = strcmp(w, t -> word)) == 0) {
        t -> cnt++;
-    } else if (strlen(w) == strlen(t -> word)){
-        if (comp > 0) {
+    } else if (comp > 0) {
             t -> right = treeadd(t -> right, w);
         } else t -> left = treeadd(t -> left, w);
-
-    } else if (strlen(w) > strlen(t -> word)){
-        t -> right = treeadd(t -> right, w);
-    } else t -> left = treeadd(t -> left, w);
 
     return t;
 }
@@ -81,7 +61,7 @@ void printleaf(struct Tree* t, int num, int count, FILE* f){
     }
 }
 
-struct Tree* treeprint(struct Tree* t, FILE* f) {
+void treeprint(struct Tree* t, FILE* f) {
     int max = treemax(t);
     int count = treecount(t);
     for(int i = max; i >= 1; i--) {
@@ -105,6 +85,7 @@ int main(int argc, char *argv[]) {
     FILE *f1;
     FILE *f2;
     int numnum = 3;
+	
     if (argc > 1) {
     if (strcmp(argv[1], "-i") == 0) {
         f1 = fopen(argv[2], "r");
@@ -116,23 +97,22 @@ int main(int argc, char *argv[]) {
         numnum -= 2;
     }
     } else f1 = stdin;
-    if (argc > 3){
-    if (strcmp(argv[numnum], "-o") == 0) {
+    if (strcmp(argv[numnum], "-o") == 0 && argc > 3) {
         f2 = fopen(argv[numnum + 1], "w");
         if (f2 == NULL) {
             printf("error with file %s", argv[numnum + 1]);
         }
     } else f2 = stdout;
-    } else f2 = stdout;
+	
     int ch;
     int size = 0, n = 0; 
     
     while ((ch = fgetc(f1)) != EOF) {
-        if (size >= n) {
+        if (size == n) {
             size = 2 * size + 1;
             w = realloc(w, size);
             if (w == NULL) {
-				printf("memory error");
+				fprintf(stderr,"memory error");
 				return 3;
 			}
         }
@@ -140,39 +120,36 @@ int main(int argc, char *argv[]) {
             if (n > 0) {
                 t = treeadd(t, w);
                 size = n = 0;
-                
-                free(w);
                 w = NULL;
             }
-
-            w = realloc(w, sizeof(char));
-
+            w = (char *)malloc(sizeof(int));
             if (w == NULL) {
-                printf("memory error");
+                fprintf(stderr,"memory error");
 				return 3;
             }
             w[0] = ch;
             t = treeadd(t, w);
-            free(w);
             w = NULL;
             size = n = 0;
         } else {
-        if (ch == ' ' || ch == '\n' || ch == '\t') {
-            if (n > 0) {
-                t = treeadd(t, w);
-                size = n = 0;
-                free(w);
-                w = NULL;
+            if (isspace(ch)) {
+                if (n > 0) {
+                    t = treeadd(t, w);
+                    size = n = 0;
+                    w = NULL;
+                }
+            } else {
+                w[n] = ch;
+                n++;
             }
-        } else {
-            w[n] = ch;
-            n++;
-        }
         }
     }
+    if (n > 0) t = treeadd(t, w);
 
     free(w);
+	
     treeprint(t,f2);
+	
     treedel(t);
     fclose(f1);
     fclose(f2);
