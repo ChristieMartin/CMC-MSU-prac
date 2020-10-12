@@ -23,18 +23,19 @@ struct Tree* treeadd(struct Tree* t, char *w) {
             printf("memory error");
             exit(2);
         }
-	w = strcat(w, "\0");
-        t -> word = w;
+        t -> word = strdup(w);
         t -> cnt = 1;
         t -> right = t -> left = NULL;
     } else if ((comp = strcmp(w, t -> word)) == 0) {
-       t -> cnt++;
+        t -> cnt++;
     } else if (comp > 0) {
-            t -> right = treeadd(t -> right, w);
-        } else t -> left = treeadd(t -> left, w);
+        t -> right = treeadd(t -> right, w);
+    } else 
+        t -> left = treeadd(t -> left, w);
 
     return t;
 }
+
 
 int treecount(struct Tree* t) {
     if (t != NULL) {
@@ -79,6 +80,10 @@ void treedel(struct Tree* t) {
     }
 }
 
+void readfile(FILE* f){
+
+}
+
 char* w = NULL;
 
 int main(int argc, char *argv[]) {
@@ -88,15 +93,15 @@ int main(int argc, char *argv[]) {
     int numnum = 3;
 	
     if (argc > 1) {
-    if (strcmp(argv[1], "-i") == 0) {
-        f1 = fopen(argv[2], "r");
-        if (f1 == NULL) {
-            printf("error with file %s", argv[2]);
+        if (strcmp(argv[1], "-i") == 0) {
+            f1 = fopen(argv[2], "r");
+            if (f1 == NULL) {
+                printf("error with file %s", argv[2]);
+            }
+        } else{ 
+            f1 = stdin;
+            numnum -= 2;
         }
-    } else{ 
-        f1 = stdin;
-        numnum -= 2;
-    }
     } else f1 = stdin;
     if (strcmp(argv[numnum], "-o") == 0 && argc > 3) {
         f2 = fopen(argv[numnum + 1], "w");
@@ -106,10 +111,10 @@ int main(int argc, char *argv[]) {
     } else f2 = stdout;
 	
     int ch;
-    int size = 0, n = 0; 
-    
+    int size = 0, n = 0;
+
     while ((ch = fgetc(f1)) != EOF) {
-        if (size == n) {
+        if (size >= n) {
             size = 2 * size + 1;
             w = realloc(w, size);
             if (w == NULL) {
@@ -117,40 +122,59 @@ int main(int argc, char *argv[]) {
 				return 3;
 			}
         }
-         if (ispunct(ch)) {
+        if (ispunct(ch) || isspace(ch)) {
             if (n > 0) {
+                if (size < n + 1) {
+                    size = n + 1;
+                    w = realloc(w, n + 1);
+                if (w == NULL) {
+                    fprintf(stderr,"memory error");
+                    return 3;
+			    }
+                }
+                w[n] = '\0'; 
                 t = treeadd(t, w);
                 size = n = 0;
-                w = NULL;
+                free(w);     
+                w = malloc(2);
             }
-            w = (char *)malloc(sizeof(int));
-            if (w == NULL) {
-                fprintf(stderr,"memory error");
-				return 3;
-            }
-            w[0] = ch;
-            t = treeadd(t, w);
-            w = NULL;
-            size = n = 0;
-        } else {
-            if (isspace(ch)) {
-                if (n > 0) {
-                    t = treeadd(t, w);
-                    size = n = 0;
-                    w = NULL;
+            if (ispunct(ch)){
+                free(w);
+                w = (char *)malloc(2);
+                if (w == NULL) {
+                    fprintf(stderr,"memory error");
+                    return 3;
                 }
-            } else {
-                w[n] = ch;
-                n++;
+                w[0] = ch;
+                w[1] = '\0';
+                t = treeadd(t, w);
+                free(w);     
+                w = (char *)malloc(2);
+                size = n = 0;
             }
+        } else {
+            w[n] = ch;
+            n++;
         }
     }
-    if (n > 0) t = treeadd(t, w);
+    if (n > 0) {
+        if (size < n+1){
+            size = n + 1;
+            w = realloc(w, n + 1);
+            if (w == NULL) {
+				fprintf(stderr,"memory error");
+				return 3;
+			}
+        }
+        w[n] = '\0';
+        t = treeadd(t, w);
+        free(w);     
+        w = (char *)malloc(2);
+    }
 
-    free(w);
+    if (w != NULL) free(w);
 	
     treeprint(t,f2);
-	
     treedel(t);
     fclose(f1);
     fclose(f2);
