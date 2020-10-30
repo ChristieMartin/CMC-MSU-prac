@@ -13,7 +13,7 @@ int bomcheck(char *file){
     
     FILE *f1 = fopen(file, "r");
     if(f1 == 0){
-        perror("file error");
+        fprintf(stderr, "error with file \n");
         exit(5);
     }
     fread(&num8_1, 1, 1, f1);
@@ -46,7 +46,7 @@ void endian(unsigned char num8_1, unsigned char num8_2, FILE* f2){
         fwrite(&newnum8_3, 1, 1, f2);
         fwrite(&newnum8_2, 1, 1, f2);
         fwrite(&newnum8_1, 1, 1, f2);
-    } else perror("not in range");
+    } else fprintf(stderr, "not in range %x\n", num16);
 }
 
 int main(int argc, char *argv[]){
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
     if (argc > 1){
         f1 = fopen(argv[1], "r");
         if (f1 == 0) {
-            perror("error with file");
+            fprintf(stderr, "error with file \n");
             return 1;
         }
     }
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]){
             fwrite(&num8, 1, 1, f2);
         }
         if (f2 == 0) {
-            perror("error with file");
+            fprintf(stderr, "error with file \n");
             return 1;
         }
     }
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]){
         num8_1 = num16 >> 8;
         num8_2 = num16 ^ 0xff00;
         endian(num8_1, num8_2, f2);
-        perror("no bom");
+        fprintf(stderr, "no bom \n");
         fl = 0;
     }
     int sum;
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]){
         sum = fread(&num8_1, 1, 1, f1) + fread(&num8_2, 1, 1, f1);
         if (sum != 2) {
             if (sum == 1){
-                perror("odd");
+                fprintf(stderr, "something's odd %x %x\n", num8_1, num8_2);
             }
             continue;
         }
