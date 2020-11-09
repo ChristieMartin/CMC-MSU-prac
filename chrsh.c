@@ -102,6 +102,8 @@ int main(int argc, char *argv[]){
         } else
             if (ch == '"') {
                 if (incommas == 0) incommas = 1; else incommas = 0;
+		w[n] = ch;
+                n++;
             }   else
                     if (isspace(ch) && (incommas == 0)){
                         if(n > 0){
