@@ -62,22 +62,29 @@ int main(int argc, char *argv[]){
     char** arg;
 
 
-    arg = malloc(sizeof(char*));
-    *arg = NULL;
-    int ch, size = 0, n = 0, i = 0, incommas = 0;
+    arg = NULL;
+    int ch, size = 0, n = 0, i = 0, incommas = 0, size2 = 0;
     char host[10];
     char login[10];
+    char buf[1024];
     gethostname(host, 10);
     getlogin_r(login, 10);
-    printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(NULL, 0));
+    printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(buf, sizeof(buf)));
     //printf("chrish %s> ", getcwd(NULL, 0));
     while ((ch = getchar()) != EOF){
-        
-        if (size >= n){
-            size = 2* size + 1;
+        if (size2 <= i){
+            size2 = 2 * size2 + 1;
+            arg = realloc(arg, size2);
+            if (arg == NULL) {
+                fprintf(stderr, "memory error1");
+                return 3;
+            }
+        }
+        if (size <= n){
+            size = 2 * size + 1;
             w = realloc(w, size);
             if (w == NULL) {
-                fprintf(stderr, "memory error");
+                fprintf(stderr, "memory error2");
                 return 3;
             }
         }
@@ -92,18 +99,21 @@ int main(int argc, char *argv[]){
             if (strcmp(arg[0], "cd") == 0){
                 changedir(arg[1]);
             } else {
+                
                 arg[i+1] = NULL;
                 runcommand(arg);
             }
             
-            printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(NULL, 0));
+            printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(buf, sizeof(buf)));
             //printf("chrish %s> ", getcwd(NULL, 0));
-            freearr(arg, i);
+            //for (j = 0; j <= i; j++) arg[j] = NULL;
+            free(w);
+            w = malloc(sizeof(char));
+            freearr(arg, i+1);
             *arg = malloc(1);
             i = 0;
             n = size = 0;
-            free(w);
-            w = malloc(sizeof(char));
+
         } else
             if (ch == '"') {
                 if (incommas == 0) incommas = 1; else incommas = 0;
@@ -118,7 +128,8 @@ int main(int argc, char *argv[]){
                             i++;
                             n = size = 0;
                             free(w);
-                            w = malloc(sizeof(char));
+                            //w = NULL;
+                            w = malloc(1);
                         }
                     } else {
                         w[n] = ch;
@@ -138,7 +149,7 @@ int main(int argc, char *argv[]){
         
     }
 
-    freearr(arg, i);
+    freearr(arg, i+1);
     free(w);
     printf("\n");
     return 0;
