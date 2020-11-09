@@ -21,6 +21,7 @@ void runcommand(char** arg){
         if(status != 0) perror(arg[0]);
     } else{
         execvp(arg[0], arg);
+        perror(arg[0]);
         exit(2);
     }
 }
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]){
 
     arg = malloc(sizeof(char*));
     *arg = NULL;
-    int ch, size = 0, n = 0, i = 0, incommas = 0, j = 0;
+    int ch, size = 0, n = 0, i = 0, incommas = 0;
     char host[10];
     char login[10];
     gethostname(host, 10);
@@ -90,11 +91,15 @@ int main(int argc, char *argv[]){
             if (strcmp(arg[0], "exit") == 0) return 0;
             if (strcmp(arg[0], "cd") == 0){
                 changedir(arg[1]);
-            } else runcommand(arg);
+            } else {
+                arg[i+1] = NULL;
+                runcommand(arg);
+            }
             
             printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(NULL, 0));
             //printf("chrish %s> ", getcwd(NULL, 0));
-            for (j = 0; j <= i; j++) arg[j] = NULL;
+            freearr(arg, i);
+            *arg = malloc(1);
             i = 0;
             n = size = 0;
             free(w);
@@ -102,8 +107,6 @@ int main(int argc, char *argv[]){
         } else
             if (ch == '"') {
                 if (incommas == 0) incommas = 1; else incommas = 0;
-		w[n] = ch;
-                n++;
             }   else
                     if (isspace(ch) && (incommas == 0)){
                         if(n > 0){
@@ -130,6 +133,7 @@ int main(int argc, char *argv[]){
         arg[i] = strdup(w);
         if (strcmp(arg[0], "exit") == 0) return 0;
         printf("\n");
+        arg[i+1] = NULL;
         runcommand(arg);
         
     }
