@@ -15,11 +15,12 @@
 
 
 void runcommand(char** arg){
+    int status = 0;
     if (fork()){
-        wait(NULL);
+        wait(&status);
+        if(status != 0) perror(arg[0]);
     } else{
         execvp(arg[0], arg);
-        perror(arg[0]);
         exit(2);
     }
 }
