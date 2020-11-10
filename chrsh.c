@@ -101,7 +101,7 @@ int main(int argc, char *argv[]){
             } else {
                 
                 arg[i+1] = NULL;
-                runcommand(arg);
+                if (incommas == 0) runcommand(arg); else fprintf(stderr,"comma missing\n");
             }
             
             printf(BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(buf, sizeof(buf)));
@@ -112,6 +112,7 @@ int main(int argc, char *argv[]){
             freearr(arg, i+1);
             *arg = malloc(1);
             i = 0;
+            incommas = 0;
             n = size = 0;
 
         } else
@@ -145,7 +146,7 @@ int main(int argc, char *argv[]){
         if (strcmp(arg[0], "exit") == 0) return 0;
         printf("\n");
         arg[i+1] = NULL;
-        runcommand(arg);
+        if (incommas == 0) runcommand(arg); else fprintf(stderr,"comma missing\n");
         
     }
 
