@@ -24,7 +24,7 @@ void CountTrap (int s){
 
 int main(int argc, char **argv){
     signal(SIGINT, CountInt); 
-    signal(SIGTSTP, CountTrap);
+    signal(SIGTRAP, CountTrap);
 
     while(1);   
     return 0;
