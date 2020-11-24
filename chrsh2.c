@@ -151,7 +151,7 @@ void redir(char** progname, char* arrow, char* filename, int* fd){
 
 }
 
-int conv(int a, char*** args){
+void conv(int a, char*** args){
     int i = 0, fd[2];
     int status = 0;
     int fl = 0;
@@ -174,7 +174,6 @@ int conv(int a, char*** args){
         i++;
     }
     while (wait(&status) != -1);
-    return status;
 }
 
 
@@ -234,7 +233,7 @@ void runcommand(struct shell* sh){
                 while(checkmetas(sh -> metas[i]) == 3) i++;
                 if (pid = fork()){
                     while (wait(NULL) != -1);
-                } else printf("%d\n",conv(i + 1, sh -> arg));
+                } else conv(i + 1, sh -> arg);
                 //pipepipe(sh -> arg[i - 1], sh -> arg[i]);
                 break;
             default:
