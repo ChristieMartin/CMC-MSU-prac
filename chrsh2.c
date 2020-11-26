@@ -114,7 +114,7 @@ int checksizes(char** w, int* size, int n, char*** arg, int* size2, int i){
     return 0;
 }
 
-void redir(char** progname, char* arrow, char* filename, int* fd){
+void redir(char** progname, char* arrow, char* filename){
     int f;
     pid_t p = fork();
     int i = 0;
@@ -151,50 +151,78 @@ void redir(char** progname, char* arrow, char* filename, int* fd){
 
 }
 
-void conv(int a, char*** args){
-    int i = 0, fd[2];
-    int status = 0;
-    int fl = 0;
-    pid_t pid2;
-    while (i != a) {
-        pipe(fd);
-        switch (pid2 = fork()){
-            case -1:
-                perror("");
-                exit(3);
-            case 0:
-                if (i + 1 != a) dup2(fd[1], 1); 
-                close(fd[0]); close(fd[1]);
-                execvp(args[i][0], args[i]);
-                perror(args[i][0]);
-                exit(4);
-        }
-        dup2(fd[0], 0);
-        close(fd[0]); close(fd[1]);
-        i++;
-    }
-    while (wait(&status) != -1);
-}
-
-
 int checkmetas(char* arg){
     if (arg == NULL) return 0;
-    if (strcmp(arg, ">") == 0 || strcmp(arg, ">>") == 0){
+    if (strcmp(arg, ">") == 0){
         return 1;
-    } else if (strcmp(arg, "<") == 0){
+    } else if (strcmp(arg, ">>") == 0){
         return 2;
-    } else if (strcmp(arg, "|") == 0){
+    } else if (strcmp(arg, "<") == 0){
         return 3;
-    } else if (strcmp(arg, "&") == 0){
+    } else if (strcmp(arg, "|") == 0){
         return 4;
-    } else if (strcmp(arg, ";") == 0){
+    } else if (strcmp(arg, "&") == 0){
         return 5;
-    } else if (strcmp(arg, "||") == 0){
+    } else if (strcmp(arg, ";") == 0){
         return 6;
-    } else if (strcmp(arg, "&&") == 0){
+    } else if (strcmp(arg, "||") == 0){
         return 7;
+    } else if (strcmp(arg, "&&") == 0){
+        return 8;
     }
-    return 8;
+    return 9;
+}
+
+void pipeline(struct shell* sh){
+    int i = 0, j = 0, k = 0, met = 0;
+    int pid, fd[2],  file, flag;
+    while (i <= sh -> lenm){
+        if(checkmetas(sh -> metas[i]) == 4 || i == sh -> lenm){
+            pipe(fd);
+            switch (pid = fork()){
+            case -1:
+                fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: fork error: "COLORENDS " ");
+                exit(2);
+            case 0:
+                if (i != sh -> lenm) dup2(fd[1], 1);
+                close(fd[0]); close(fd[1]);
+                j = k;
+                while(j != (sh -> lenm) && (met = checkmetas(sh -> metas[j])) != 4){
+                    if (met == 1){
+                        file = open(sh -> arg[j + 1][0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                        if(file < 0) fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: file error(child): "COLORENDS " ");
+                        else flag = 1;
+                    }
+                    else if (met == 2){
+                        file = open(sh -> arg[j + 1][0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+                        if(file < 0) fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: file error(child): "COLORENDS " ");
+                        else flag = 1;
+                    }
+                    else if(met == 3){
+                        file = open(sh -> arg[j + 1][0], O_RDONLY);
+                        if(file < 0) fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: file error(child): "COLORENDS " ");
+                        else flag = 0;
+                    } else {
+                        fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: syntax error(child): "COLORENDS " ");
+                        perror(sh -> metas[j]);
+                        exit(2);
+                    }
+                    dup2(file, flag);
+                    close(file);
+                    j++;
+                }
+                execvp(sh -> arg[k][0], sh -> arg[k]);
+                fprintf(stderr, BACKGROUND_RED BALD WHITE" pipeline: exec error(child): "COLORENDS " ");
+                perror(sh -> arg[k][0]);
+                exit(1);
+            }
+            dup2(fd[0], 0);
+            close(fd[0]); close(fd[1]);
+            k = i + 1;
+        }
+        i++;
+    }
+    while(wait(NULL) != -1);
 }
 
 void runcommand(struct shell* sh){
@@ -219,22 +247,36 @@ void runcommand(struct shell* sh){
         int i = 0;
         int j = 0;
         pid_t pid;
-        while ((met = checkmetas(sh -> metas[i++])) != 0){
+        if ((met = checkmetas(sh -> metas[i++])) != 0){
+            
             switch (met){
-            case 1:
+            case 1: case 2:
                 while(checkmetas(sh -> metas[i]) == 1) i++;
-                redir(sh -> arg[j], sh -> metas[i - 1], sh -> arg[i][0], fd);
-                break;
-            case 2:
-                while(checkmetas(sh -> metas[i]) == 2) i++;
-                redir(sh -> arg[j], sh -> metas[i - 1], sh -> arg[i][0], fd);
+                redir(sh -> arg[j], sh -> metas[i - 1], sh -> arg[i][0]);
                 break;
             case 3:
-                while(checkmetas(sh -> metas[i]) == 3) i++;
+                
+                while(checkmetas(sh -> metas[i]) == 2) i++;
+                if (checkmetas(sh -> metas[i]) == 4){
+                    if (pid = fork()){
+                    while (wait(NULL) != -1);
+                    } else {
+                        pipeline(sh);
+                        exit(0);
+                    }
+                } else{
+                    redir(sh -> arg[j], sh -> metas[i - 1], sh -> arg[i][0]);
+                }
+                break;
+            case 4:
+                
+                while(checkmetas(sh -> metas[i]) == 4) i++;
                 if (pid = fork()){
                     while (wait(NULL) != -1);
-                } else conv(i + 1, sh -> arg);
-                //pipepipe(sh -> arg[i - 1], sh -> arg[i]);
+                } else {
+                    pipeline(sh);
+                    exit(0);
+                }
                 break;
             default:
                 break;
@@ -248,14 +290,10 @@ void printway(char* login, char* host){
     printf(BALD BLUE "chrish:%s@%s " GREEN "%s " PURPLE "> " COLORENDS, login, host, getcwd(buf, sizeof(buf)));
 }
 
-
-
 char* w = NULL;
 const char meta[] = {'>', '<', '|', '&', '(', ')', ';', '$'};
 
-
 int main(int argc, char *argv[]){
-    
     struct shell *sh =(struct shell*)malloc(sizeof(*sh));
     
     //sh -> arg = NULL;
@@ -280,7 +318,7 @@ int main(int argc, char *argv[]){
         if (checksizes(&w, &size, n, &(sh -> arg[j]), &size2, i)) return 4;
         if (ch == '\n' && inquotes == 1) printf(PURPLE ">" COLORENDS " ");
         if (ch == '\n' && inquotes == 0){
-            if (n == 0) {
+            if (n == 0 && i == 0) {
                 printway(login, host);
                 continue;
             }
@@ -306,7 +344,7 @@ int main(int argc, char *argv[]){
             }
             
             printway(login, host);
-
+            sh -> metas[sh -> lenm] = NULL;
             freearr(sh -> metas, sh -> lenm + 1);
             for (k = 0; k <= j; k++) {
                 freearr((sh -> arg[k]), sh -> llen[k] + 1);
@@ -316,10 +354,10 @@ int main(int argc, char *argv[]){
             deletestr(&w, &n, &size);
 
             j = sh -> len = sh -> lenm = i = inquotes =  0;
-
-            sh -> arg = (char***) malloc(20 * sizeof(char**));
+            
+            sh -> arg = (char***) malloc(64 * sizeof(char**));
             sh -> arg[j] = (char**) malloc(64 * sizeof(char*));
-            sh -> metas = (char**) malloc(64 * sizeof(char*));
+            sh -> metas = (char**) malloc(64* sizeof(char*));
         } else
         if (ch == '"') {
             if (inquotes == 0) inquotes = 1; else inquotes = 0;
