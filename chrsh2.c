@@ -269,8 +269,6 @@ void runcommand(struct shell* sh){
                 }
                 break;
             case 4:
-                
-                while(checkmetas(sh -> metas[i]) == 4) i++;
                 if (pid = fork()){
                     while (wait(NULL) != -1);
                 } else {
