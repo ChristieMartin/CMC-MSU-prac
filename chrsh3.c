@@ -108,7 +108,7 @@ void deletestr(char** w, int* n, int* size){
 int checksizes(char** w, int* size, int n, char*** arg, int* size2, int i){
     if (*size2 <= i){
         *size2 = (*size2) * 64 + 1;
-        *arg = realloc(*arg, (*size2)*sizeof(char**));
+        *arg = realloc(*arg, (*size2) * sizeof(char**));
         if (*arg == NULL){
             fprintf(stderr, BACKGROUND_RED BALD RED" checksizes: memory error1 "COLORENDS " \n");
             return 1;
@@ -158,7 +158,7 @@ void ChildDead (int s){
                 } else if (WIFCONTINUED(status)){
                     printf("\n[%d] %d Continued (%d)\n", k, pid, status);
                 } else printf("\n[%d] %d Exited (%d)\n", k, pid, status);
-            } else printf("%d\n", pid);
+            } else printf("\n[%d] %d Exited (%d)\n", k, pid, status);
         }
     }
 }
@@ -228,7 +228,7 @@ void pipeline(struct shell* sh){
     int i = 0, j = 0, k = 0, met = 0;
     int pid, fd[2],  file, flag;
     while (i <= sh -> lenm){
-        if(checkmetas(sh -> metas[i]) == _PIPE || i == sh -> lenm){
+        if(i == sh -> lenm || checkmetas(sh -> metas[i]) == _PIPE){
             pipe(fd);
             switch (pid = fork()){
             case -1:
@@ -282,12 +282,7 @@ void runcommand(struct shell* sh){
     if (sh -> lenm == 0){
         if (fork()){
             wait(&status);
-            if(status != 0) {
-                fprintf(stderr, BACKGROUND_RED BALD WHITE" runcommand: error(parent): "COLORENDS " ");
-                perror(sh -> arg[0][0]);
-            } 
         } else{
-            
             execvp(sh -> arg[0][0], sh -> arg[0]);
             //execv(getenv("PATH"),sh -> arg);
             fprintf(stderr, BACKGROUND_RED BALD WHITE" runcommand: error(child): "COLORENDS " ");
@@ -344,6 +339,7 @@ void runcommand(struct shell* sh){
                     pidl++;
                     printf("[%d] %d Starts\n", pidl, pid);
                 } else {
+                    signal(SIGINT, SIG_IGN);
                     execvp(sh -> arg[i - 1][j], sh -> arg[i - 1]);
                     fprintf(stderr, BACKGROUND_RED BALD WHITE" runcommand: error(child): "COLORENDS " ");
                     perror(sh -> arg[i - 1][j]);
@@ -424,6 +420,11 @@ int init(){
             if (strcmp((sh -> arg[0])[0], "cd") == 0){
                 changedir((sh -> arg[0])[1]);
             } else {
+                if (i >= size2) {
+                    size2 = i + 1;
+                    sh -> arg[j] = realloc(sh -> arg[j], (size2) * sizeof(char**));
+                }
+                //i++;
                 (sh -> arg[j])[i] = NULL;
                 sh -> llen[j] = i;
                 sh -> len = j;
@@ -431,9 +432,9 @@ int init(){
             }
             printway(host);
             sh -> metas[sh -> lenm] = NULL;
-            freearr(sh -> metas, sh -> lenm + 1);
+            freearr(sh -> metas, sh -> lenm);
             for (k = 0; k <= j; k++) {
-                freearr((sh -> arg[k]), sh -> llen[k] + 1);
+                freearr((sh -> arg[k]), sh -> llen[k]);
                 sh -> llen[k] = 0;
             }
             free(sh -> arg);
@@ -442,7 +443,7 @@ int init(){
             j = sh -> len = sh -> lenm = i = inquotes =  0;
             
             sh -> arg = (char***) malloc(64 * sizeof(char**));
-            sh -> arg[j] = (char**) malloc(64 * sizeof(char*));
+            sh -> arg[0] = (char**) malloc(64 * sizeof(char*));
             sh -> metas = (char**) malloc(64* sizeof(char*));
         } else
         if (ch == '"') {
@@ -459,10 +460,15 @@ int init(){
                 char formeta[3];
                 t = getchar();
                 formeta[0] = ch;
+                if (i >= size2) {
+                    size2 = i + 1;
+                    sh -> arg[j] = realloc(sh -> arg[j], (size2) * sizeof(char**));
+                }
                 (sh -> arg[j])[i] = NULL;
                 sh -> llen[j] = i;
                 j++;
                 i = size2 = 0;
+                sh -> arg[j] = (char **)malloc(64 * sizeof(char *));
                 checksizes(&w, &size, n, &(sh -> arg[j]), &size2, i);
                 if (t == EOF || t == '\n') {
                     if (t == EOF) break;
@@ -478,11 +484,12 @@ int init(){
 
                     printway(host);
 
-                    freearr(sh -> metas, sh -> lenm + 1);
-                    for (k = 0; k <= j; k++) {
-                        freearr((sh -> arg[k]), sh -> llen[k] + 1);
+                    freearr(sh -> metas, sh -> lenm);
+                    for (k = 0; k < j; k++) {
+                        freearr((sh -> arg[k]), sh -> llen[k]);
                         sh -> llen[k] = 0;
                     }
+                    free(sh -> arg[k]);
                     free(sh -> arg);
                     deletestr(&w, &n, &size);
 
@@ -558,31 +565,32 @@ int init(){
 void KillChild(int s){
     signal(SIGINT, KillChild); 
     printf("\n");
-    if (sh -> lenm != 0) freearr(sh -> metas, sh -> lenm + 1);
+    int fl = 0;
+    if (sh -> lenm != 0) {
+        freearr(sh -> metas, sh -> lenm);
+        fl = 1;
+    }
     for (k = 0; k <= j; k++) {
-        freearr((sh -> arg[k]), sh -> llen[k] + 1);
+        freearr((sh -> arg[k]), sh -> llen[k]);
         sh -> llen[k] = 0;
     }
     free(sh -> arg);
     deletestr(&w, &n, &size);
 
-    j = sh -> len = sh -> lenm = i = inquotes = size2 = 0;
-
+    j = sh -> len = sh -> lenm = i = inquotes = 0;
+    size2 = 1;
     free(w);
-    free(sh -> metas);
-    sh -> arg = (char***) malloc(64 * sizeof(char**));
+    if (!fl) free(sh -> metas);
+    sh -> arg = (char***) malloc(20 * sizeof(char**));
     sh -> arg[j] = (char**) malloc(64 * sizeof(char*));
     sh -> metas = (char**) malloc(64* sizeof(char*));
     w = (char *)malloc(64 * sizeof(char));
-    checksizes(&w, &size, n, &(sh -> arg[j]), &size2, i);
+    //checksizes(&w, &size, n, &(sh -> arg[j]), &size2, i);
     //printway(host);
 }
 
 int main(){
     signal(SIGINT, KillChild); 
     signal(SIGCHLD, ChildDead); 
-    init();
-    return 0;
+    return init();
 }
-
-
