@@ -433,10 +433,15 @@ int init(){
             printway(host);
             sh -> metas[sh -> lenm] = NULL;
             freearr(sh -> metas, sh -> lenm);
-            for (k = 0; k <= j; k++) {
+            for (k = 0; k < j; k++) {
                 freearr((sh -> arg[k]), sh -> llen[k]);
                 sh -> llen[k] = 0;
             }
+            if (sh -> llen[k] != 0) {
+                freearr((sh -> arg[k]), sh -> llen[k]); 
+                sh -> llen[k] = 0;
+            } else
+                free(sh -> arg[k]);
             free(sh -> arg);
             deletestr(&w, &n, &size);
 
@@ -489,7 +494,11 @@ int init(){
                         freearr((sh -> arg[k]), sh -> llen[k]);
                         sh -> llen[k] = 0;
                     }
-                    free(sh -> arg[k]);
+                    if (sh -> llen[k] != 0) {
+                        freearr((sh -> arg[k]), sh -> llen[k]); 
+                        sh -> llen[k] = 0;
+                    } else
+                        free(sh -> arg[k]);
                     free(sh -> arg);
                     deletestr(&w, &n, &size);
 
@@ -574,10 +583,13 @@ void KillChild(int s){
         freearr((sh -> arg[k]), sh -> llen[k]);
         sh -> llen[k] = 0;
     }
-    free(sh -> arg[k]);
+    if (sh -> llen[k] != 0) {
+        freearr((sh -> arg[k]), sh -> llen[k]); 
+        sh -> llen[k] = 0;
+    } else
+        free(sh -> arg[k]);
     free(sh -> arg);
     deletestr(&w, &n, &size);
-
     j = sh -> len = sh -> lenm = i = inquotes = 0;
     size2 = 1;
     free(w);
