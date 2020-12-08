@@ -24,8 +24,7 @@ int main(int argc, char *argv[]){
     int status;
     pipe(fd);
     pid_t p = fork();
-    switch (p)
-    {
+    switch (p){
     case -1:
         perror("fork");
         exit(1);
@@ -33,6 +32,10 @@ int main(int argc, char *argv[]){
         dup2(fd[1], 1);
         close(fd[0]); close(fd[1]);
         f = open(fname, O_RDONLY);
+        if (f < 0){
+            perror(fname);
+            exit(9);
+        }
         dup2(f, 0);
         close(f);
         execlp(pr1, pr1, NULL);
@@ -51,27 +54,32 @@ int main(int argc, char *argv[]){
         dup2(fd[0], 0);
         close(fd[0]); close(fd[1]);
         p = fork();
-        //switch (p)
-        //{
-        //case -1:
-        //    perror("fork2");
-        //        exit(2);
-        //    break;
-        //case 0:
-        //    execlp(pr1, pr1, NULL);
-        //    perror(pr1);
-        //    exit(6);
-        //default:
-        //    wait(&status);
-        //}
-        //if (WIFEXITED(status)){
+        pipe(fd);
+        switch (p)
+        {
+        case -1:
+            perror("fork3");
+            exit(2);
+            break;
+        case 0:
+            dup2(fd[0], 0);
+            close(fd[0]); close(fd[1]);
+            execlp(pr1, pr1, NULL);
+            perror(pr1);
+            exit(6);
+        }
+        close(fd[0]); close(fd[1]);
+        wait(&status);
+        
+        if (WIFEXITED(status)){
+            
             execlp(pr2, pr2, NULL);
             perror(pr2);
             exit(4);
-        //}
+        }
     default:
         close(fd[0]); close(fd[1]);
-        wait(NULL);
+        wait(NULL); wait(NULL); 
         break;
     }
     return 0;
