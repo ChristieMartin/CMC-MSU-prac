@@ -53,8 +53,9 @@ int main(int argc, char *argv[]){
     case 0:
         dup2(fd[0], 0);
         close(fd[0]); close(fd[1]);
+        //pipe(fd);
         p = fork();
-        pipe(fd);
+        
         switch (p)
         {
         case -1:
@@ -68,19 +69,36 @@ int main(int argc, char *argv[]){
             perror(pr1);
             exit(6);
         }
-        close(fd[0]); close(fd[1]);
-        wait(&status);
+        //dup2(fd[0], 0);
+        //close(fd[0]); close(fd[1]);
+        wait(&status); 
         //pipe(fd);
         if (WIFEXITED(status)){
             //dup2(fd[0], 0);
-            close(fd[0]); close(fd[1]);
-            execlp(pr2, pr2, NULL);
-            perror(pr2);
-            exit(4);
+            //close(fd[0]); close(fd[1]);
+            p = fork();
+            switch (p)
+            {
+            case -1:
+                perror("fork3");
+                exit(2);
+                break;
+            case 0:
+                dup2(fd[0], 0);
+                close(fd[0]); close(fd[1]);
+                execlp(pr1, pr1, NULL);
+                perror(pr1);
+                exit(6);
+            }
+            //dup2(fd[0], 0);
+            //close(fd[0]); close(fd[1]);
+            //execlp(pr2, pr2, NULL);
+            //perror(pr2);
+            //exit(4);
         }
     default:
         close(fd[0]); close(fd[1]);
-        wait(NULL); wait(NULL); 
+        wait(NULL); wait(NULL);
         break;
     }
     return 0;
