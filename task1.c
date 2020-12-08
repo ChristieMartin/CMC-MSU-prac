@@ -53,7 +53,6 @@ int main(int argc, char *argv[]){
     case 0:
         dup2(fd[0], 0);
         close(fd[0]); close(fd[1]);
-        //pipe(fd);
         p = fork();
         
         switch (p)
@@ -63,19 +62,13 @@ int main(int argc, char *argv[]){
             exit(2);
             break;
         case 0:
-            dup2(fd[0], 0);
-            close(fd[0]); close(fd[1]);
-            execlp(pr1, pr1, NULL);
-            perror(pr1);
+            execlp(pr2, pr2, NULL);
+            perror(pr2);
             exit(6);
         }
-        //dup2(fd[0], 0);
-        //close(fd[0]); close(fd[1]);
         wait(&status); 
-        //pipe(fd);
+
         if (WIFEXITED(status)){
-            //dup2(fd[0], 0);
-            //close(fd[0]); close(fd[1]);
             p = fork();
             switch (p)
             {
@@ -86,8 +79,8 @@ int main(int argc, char *argv[]){
             case 0:
                 dup2(fd[0], 0);
                 close(fd[0]); close(fd[1]);
-                execlp(pr1, pr1, NULL);
-                perror(pr1);
+                execlp(pr3, pr3, NULL);
+                perror(pr3);
                 exit(6);
             }
             //dup2(fd[0], 0);
