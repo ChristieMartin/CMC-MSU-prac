@@ -70,9 +70,10 @@ int main(int argc, char *argv[]){
         }
         close(fd[0]); close(fd[1]);
         wait(&status);
-        
+        //pipe(fd);
         if (WIFEXITED(status)){
-            
+            //dup2(fd[0], 0);
+            close(fd[0]); close(fd[1]);
             execlp(pr2, pr2, NULL);
             perror(pr2);
             exit(4);
