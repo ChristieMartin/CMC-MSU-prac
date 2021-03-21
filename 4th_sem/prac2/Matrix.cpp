@@ -131,7 +131,7 @@ public:
     }
 
 
-    SqrMatrix operator*(const int z){
+    SqrMatrix operator*(int z){
         SqrMatrix c(n);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) {
@@ -141,7 +141,6 @@ public:
         return c;
     }
     
-    //friend SqrMatrix operator*(const SqrMatrix& a, int z) {};
     int GetDim() const{ return n;}
     
 };
