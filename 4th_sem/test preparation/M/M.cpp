@@ -1,12 +1,8 @@
 #include <iostream>
 using namespace std;
 
-
-
-
 class M {
     int* k;
-    int* z;
 public:
     M() {
         k = new int;
@@ -25,13 +21,9 @@ public:
             return *k;
         }
         M temp(0);
-
-        return *(temp.Get2());
+        return *(temp.Get());
     }
-    int Get() const{
-       return *k; 
-    }
-    int* Get2() const {
+    int* Get() const {
         return k;
     }
 };
