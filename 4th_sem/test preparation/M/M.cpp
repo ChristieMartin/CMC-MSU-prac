@@ -15,9 +15,8 @@ public:
     ~M() {
         delete k;
     }
-    friend bool operator==(const M &m, const M &n);
     int& operator()(const M &m){
-        if(*this == m) {
+        if(&(*this) == &m) {
             return *k;
         }
         M temp(0);
@@ -27,10 +26,6 @@ public:
         return k;
     }
 };
-
-bool operator ==(const M &m, const M &n) {
-    return (&m == &n);
-}
 
 int main(){
     cout << "Creating M m(3) and M x(4)\n";
