@@ -23,7 +23,9 @@ using namespace std;
 #define COLORENDS      "\x1b[0m"
 #define BALD           "\x1b[1m"
 
-#define PORTNUMBER 8080;
+//#define PORTNUMBER 8080;
+
+
 
 /* 
 TODO :
@@ -38,15 +40,17 @@ void ColorText(string str1, string str2) {
     cout << BALD BLUE << str1 << PURPLE << str2 << COLORENDS << endl;
 }
 
+const int PORTNUMBER = 8080;
+
 class SocketAddress {
     struct sockaddr_in addr;
 public:
     SocketAddress() {
         addr.sin_family = AF_INET;
-        addr.sin_port = htons(8080); 
+        addr.sin_port = htons(PORTNUMBER); 
         addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
-    SocketAddress(const char* ip, short port){
+    SocketAddress(const char* ip, short port){ 
         addr.sin_family = AF_INET;
         addr.sin_port = htons(port); 
         addr.sin_addr.s_addr = inet_addr(ip);
@@ -125,9 +129,7 @@ public:
         char bufer[buflen];
         while((len = read(fd, bufer, buflen)) > 0){
             send(sd, bufer, len, 0);
-            //cout << buf2 << endl;
         }
-       
     }
     void Write(const vector<uint8_t>& bytes);
     void Read(string& str) {
@@ -158,8 +160,7 @@ string GetPath(string from) {
     char* w = (char*)malloc(_PC_PATH_MAX);
     while (from[i] != ' ') {
         w[j] = from[i];
-        j++; 
-        i++;
+        j++; i++;
     }
     w[j] = '\0';
     string res = "index/";
@@ -170,28 +171,23 @@ string GetPath(string from) {
 
 void ProcessConnection(int cd, const SocketAddress& clAddr) {
     ConnectedSocket cs(cd);
+
     string request;
     cs.Read(request);
     vector<string> lines = SplitLines(request);
+    ColorText("Client sent: ", lines[0]);
     string path = GetPath(lines[0]);
     ColorText("Path: ", path);
-    int fd = open(path.c_str(), O_RDONLY);
-    int fl = 0;
+
+    int fd;
+    if (path == "index//") { fd = open("index/index.html", O_RDONLY);}
+    else { fd = open(path.c_str(), O_RDONLY);}
     if (fd < 0) {
         cs.Write("HTTP/1.1 404 NotFound");
-        fl = 1;
         fd = open("index/404.html", O_RDONLY);
-    } 
-    if (path == "index//") {
-        fd = open("index/index.html", O_RDONLY);
-        if (fd < 0) {
-            cs.Write("HTTP/1.1 404 NotFound");
-            fl = 1;
-            fd = open("index/404.html", O_RDONLY);
-        }
+    } else {
+        cs.Write("HTTP/1.1 200 MyServer");
     }
-    
-    if (fl == 0) cs.Write("HTTP/1.1 200 MyServer");
     cs.WriteFile(fd);
     
     cs.Shutdown();
@@ -205,12 +201,11 @@ void RunServer() {
     ServerSocket ss;
     ss.Bind(serverAddr);
     ss.Listen(BACKLOG);
-    ColorText("Please connect to ", "127.0.0.1:8080");
+    ColorText("\nPlease connect to ", "127.0.0.1:8080\n");
     while(1) {
         SocketAddress clAddr;
-        
-        int cd = ss.Accept(clAddr);
-        ProcessConnection(cd, clAddr);
+        ProcessConnection(ss.Accept(clAddr), clAddr);
+        cout << BALD GREEN << "---------" << COLORENDS << endl;
     }
 }
 //----------------------------------------------------------
