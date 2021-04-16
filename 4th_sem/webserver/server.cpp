@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <vector>
+#include <iterator>
 
 using namespace std;
 
@@ -22,15 +23,6 @@ using namespace std;
 #define PURPLE         "\x1b[38;2;190;82;125m"
 #define COLORENDS      "\x1b[0m"
 #define BALD           "\x1b[1m"
-
-//#define PORTNUMBER 8080;
-
-
-
-/* 
-TODO :
- exceptions, HttpHeader, HttpRequest, HttpResponse, HttpServer, HttpClient, Connect for client and the whole client(rn I use my browser to test program), cgi(fork and ...) if RequestHeader asked
-*/
 
 void Check(int num, const char* str){
     if (num < 0) perror(str);
@@ -107,15 +99,15 @@ public:
     }
     void WriteFile(int fd){
         string str;
-        str += "\nContent-length: ";
+        str += "\r\nVersion: HTTP/1.1\r\nContent-length: ";
         char c;
         int len = 0;
         while(read(fd, &c, 1)) len++;
         lseek(fd, 0, 0);
-
+        ColorText("Version: ", "HTTP/1.1");
         ColorText("Content-length: ", to_string(len));
 
-        str += to_string(len) + "\n\n";
+        str += to_string(len) + "\r\n\r\n";
 
         int n = str.length();
         char* buf = (char*) malloc(sizeof(char) * (n + 1));
@@ -131,7 +123,6 @@ public:
             send(sd, bufer, len, 0);
         }
     }
-    void Write(const vector<uint8_t>& bytes);
     void Read(string& str) {
         int buflen = 1024;
         char buf[buflen];
@@ -139,7 +130,6 @@ public:
         Check(req, "read");
         str = buf;
     }
-    void Read(vector<uint8_t>& bytes);
 };
 
 vector<string> SplitLines(string s) {
@@ -156,16 +146,10 @@ vector<string> SplitLines(string s) {
 }
 
 string GetPath(string from) {
-    int i = 4, j = 0;
-    char* w = (char*)malloc(_PC_PATH_MAX);
-    while (from[i] != ' ') {
-        w[j] = from[i];
-        j++; i++;
-    }
-    w[j] = '\0';
+    int i = 4; // GET /...
     string res = "index/";
-    res += w;
-    free(w);
+    if (from[i] == ' ') i++; // if HEAD
+    while (from[i] != ' ') res += from[i++];
     return res;
 }
 
@@ -183,13 +167,15 @@ void ProcessConnection(int cd, const SocketAddress& clAddr) {
     if (path == "index//") { fd = open("index/index.html", O_RDONLY);}
     else { fd = open(path.c_str(), O_RDONLY);}
     if (fd < 0) {
-        cs.Write("HTTP/1.1 404 NotFound");
+        cs.Write("HTTP/1.1 404 Not Found");
         fd = open("index/404.html", O_RDONLY);
+        Check(fd, "fd404");
     } else {
-        cs.Write("HTTP/1.1 200 MyServer");
+        cs.Write("HTTP/1.1 200 OK");
     }
     cs.WriteFile(fd);
     
+
     cs.Shutdown();
     close(fd);
 }
@@ -208,52 +194,6 @@ void RunServer() {
         cout << BALD GREEN << "---------" << COLORENDS << endl;
     }
 }
-//----------------------------------------------------------
-class ClientSocket: public ConnectedSocket {
-public:
-    ClientSocket() : ConnectedSocket() {}
-    void Connect(const SocketAddress& serverAddr) {
-        Check(connect(sd, serverAddr.GetAddr(), serverAddr.GetLen()), "connect");
-    }
-};
-
-class HttpHeader {
-    string name;
-    string value;
-public:
-    HttpHeader(const string& n, const string& v) : name(n), value(v) {}
-    static HttpHeader* ParseHeader(const string& line);
-};
-
-class HttpRequest {
-    vector<string> _lines;
-public:
-    HttpRequest() {}
-    //const string& ToString() {};
-};
-class HttpResponse {};
-class HttpServer {};
-class HttpClient {};
-
-void ClientConnection() {
-    ClientSocket s;
-    SocketAddress saddr("127.0.0.1", 8080);
-    s.Connect(saddr);
-
-    HttpRequest rq;
-    //make req
-    //s.Write(rq.ToString());
-    HttpResponse resp;
-    string strResponse;
-    s.Read(strResponse);
-    vector<string> lines = SplitLines(strResponse);
-    //parse response...
-    // lines[0] - response header
-    // lines[1]... - httpheader
-    // empty line or body of the response
-    s.Shutdown();
-}
-
 int main(){
     RunServer();
     return 0;
