@@ -131,11 +131,9 @@ vector<string> SplitLines(string s) {
     return res;
 }
 
-
 //----------------------------------------------------------
 class ClientSocket: public ConnectedSocket {
 public:
-    //ClientSocket() : ConnectedSocket() {}
     void Connect(const SocketAddress& serverAddr) {
         Check(connect(sd, serverAddr.GetAddr(), serverAddr.GetLen()), "connect");
     }
@@ -147,14 +145,11 @@ class HttpHeader {
 public:
     HttpHeader() = default;
     HttpHeader(const string& n, const string& v) : name(n), value(v) {}
-    HttpHeader(const HttpHeader& copy) {
-        name = copy.name;
-        value = copy.value;
-    }
-    string ToString() const {
-        string temp = name + " " + value;
-        return temp;
-    }
+    HttpHeader(const HttpHeader& copy) : name(copy.name), value(copy.value) {}
+    string GetName()  const { return name;}
+    string GetValue() const { return value;}
+    string ToString() const { return (name + value);}
+
     static HttpHeader ParseHeader(const string& line){
         int i = 0;
         string name, value;
@@ -165,12 +160,12 @@ public:
             }
             name += '\0';
             
-            while (i < line.size()) {
+            while (i < line.length()) {
                 value += line[i];
                 i++;
             }
             value += '\0';
-            
+    
         } else {
             name = " "; value = " ";
         }
@@ -178,16 +173,13 @@ public:
         HttpHeader temp(name, value);
         return temp;
     }
-    int GetValue() const {
-        return atoi(value.c_str());
-    }
 };
 
 class HttpRequest {
     vector<string> _lines;
 public:
     HttpRequest() {
-        _lines = {"GET /123.txt HTTP/1.1"};
+        _lines = {"GET / HTTP/1.1"};
     }
     string ToString() const {
         string res;
@@ -206,7 +198,6 @@ public:
         response = HttpHeader::ParseHeader(lines[0]);
         other = new HttpHeader[lines.size() - 1];
         int i;
-        int n = lines.size();
         for (i = 1; i < lines.size(); i++) {
             other[i - 1] = HttpHeader::ParseHeader(lines[i]);
             if ((lines[i]).empty()) {
@@ -217,10 +208,10 @@ public:
         len = i;
     }
     void PrintResponse() const {
-        cout << response.ToString() << endl;
+        cout << BALD GREEN << response.ToString() << COLORENDS << endl;
         int j = 0;
         while (j < len) {
-            cout << (other[j]).ToString() << endl;
+            ColorText((other[j]).GetName(), (other[j]).GetValue());
             j++;
         }
         cout << body << endl;
@@ -236,10 +227,11 @@ void ClientConnection() {
     cs.Connect(saddr);
     HttpRequest rq;
     string req = rq.ToString();
+    cout << endl;
     cs.Write(req);
+    cout << endl;
     vector<string> lines;
-    string response;
-    string temp;
+    string response, temp;
     for (int i = 0; i < 3; i++){
         cs.Read(response);
         temp += response;
