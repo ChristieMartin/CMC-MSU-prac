@@ -89,39 +89,21 @@ public:
     }
 };
 
+vector<uint8_t> ToVect(int fd) {
+    vector<uint8_t> vu; char c;
+    while(read(fd, &c, 1)) vu.push_back(c);
+    return vu;
+}
+
 class ConnectedSocket: public Socket {
 public:
     ConnectedSocket() : Socket() {}
     explicit ConnectedSocket(int cd) : Socket(cd) {}
     void Write(const string& str) {
-        ColorText("Server sends: ", str);
         send(sd, str.c_str(), str.length(), 0);
     }
-    void WriteFile(int fd){
-        string str;
-        str += "\r\nVersion: HTTP/1.1\r\nContent-length: ";
-        char c;
-        int len = 0;
-        while(read(fd, &c, 1)) len++;
-        lseek(fd, 0, 0);
-        ColorText("Version: ", "HTTP/1.1");
-        ColorText("Content-length: ", to_string(len));
-
-        str += to_string(len) + "\r\n\r\n";
-
-        int n = str.length();
-        char* buf = (char*) malloc(sizeof(char) * (n + 1));
-        strcpy(buf, str.c_str());
-        len = strlen(buf);
-
-        send(sd, buf, len, 0);
-        free(buf);
-
-        int buflen = 1024;
-        char bufer[buflen];
-        while((len = read(fd, bufer, buflen)) > 0){
-            send(sd, bufer, len, 0);
-        }
+    void Write(const vector<uint8_t>& bytes) {
+        send(sd, bytes.data(), bytes.size(), 0);
     }
     void Read(string& str) {
         int buflen = 1024;
@@ -167,15 +149,21 @@ void ProcessConnection(int cd, const SocketAddress& clAddr) {
     if (path == "index//") { fd = open("index/index.html", O_RDONLY);}
     else { fd = open(path.c_str(), O_RDONLY);}
     if (fd < 0) {
+        ColorText("Server sends: ", "HTTP/1.1 404 Not Found");
         cs.Write("HTTP/1.1 404 Not Found");
         fd = open("index/404.html", O_RDONLY);
         Check(fd, "fd404");
     } else {
+        ColorText("Server sends: ", "HTTP/1.1 200 OK");
         cs.Write("HTTP/1.1 200 OK");
     }
-    cs.WriteFile(fd);
-    
-
+    vector<uint8_t> vect = ToVect(fd);
+    string str;
+    str += "\r\nVersion: HTTP/1.1\r\nContent-length: " + to_string(vect.size()) + "\r\n\r\n";
+    ColorText("Version: ", "HTTP/1.1");
+    ColorText("Content-length: ", to_string(vect.size()));
+    cs.Write(str);
+    cs.Write(vect);
     cs.Shutdown();
     close(fd);
 }
