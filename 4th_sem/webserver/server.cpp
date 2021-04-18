@@ -12,6 +12,8 @@
 #include <fcntl.h>
 #include <vector>
 #include <iterator>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 using namespace std;
 
@@ -23,6 +25,13 @@ using namespace std;
 #define PURPLE         "\x1b[38;2;190;82;125m"
 #define COLORENDS      "\x1b[0m"
 #define BALD           "\x1b[1m"
+
+#define SERVER_ADDR     "SERVER_ADDR=127.0.0.1"
+#define CONTENT_TYPE    "CONTENT_TYPE=text/plain"
+#define SERVER_PROTOCOL "SERVER_PROTOCOL=HTTP/1.0"
+#define SCRIPT_NAME     "SCRIPT_NAME="
+#define SERVER_PORT     "SERVER_PORT=8080"
+#define QUERY_STRING    "QUERY_STRING="
 
 void Check(int num, const char* str){
     if (num < 0) perror(str);
@@ -99,13 +108,15 @@ class ConnectedSocket: public Socket {
 public:
     ConnectedSocket() : Socket() {}
     explicit ConnectedSocket(int cd) : Socket(cd) {}
-    void Write(const string& str) {
+    ConnectedSocket& operator<<(const string& str) {
         send(sd, str.c_str(), str.length(), 0);
+        return *this;
     }
-    void Write(const vector<uint8_t>& bytes) {
+    ConnectedSocket& operator<<(const vector<uint8_t>& bytes) {
         send(sd, bytes.data(), bytes.size(), 0);
+        return *this;
     }
-    void Read(string& str) {
+    void operator>>(string& str) {
         int buflen = 1024;
         char buf[buflen];
         int req = recv(sd, buf, buflen, 0);
@@ -135,37 +146,135 @@ string GetPath(string from) {
     return res;
 }
 
-void ProcessConnection(int cd, const SocketAddress& clAddr) {
-    ConnectedSocket cs(cd);
+string GetFileName(string path) {
+    string temp;
+    int i = 0;
+    while(path[i] != '?') {
+        temp += path[i];
+        i++;
+    }
+    return temp;
+}
 
-    string request;
-    cs.Read(request);
-    vector<string> lines = SplitLines(request);
-    ColorText("Client sent: ", lines[0]);
-    string path = GetPath(lines[0]);
-    ColorText("Path: ", path);
+string GetQuery(string path) {
+    string temp;
+    int i = GetFileName(path).length() + 1;
+    while(i != path.length()) {
+        temp += path[i];
+        i++;
+    }
+    return temp;
+}
 
+bool IsCgi(string str) { return !(str.find('?') == -1);}
+
+char** FillEnv(string filename, string query) {
+        char** env = new char*[7];
+        env[0] = new char[22]; //SERVER_ADDR
+        env[1] = new char[24]; //CONTENT_TYPE
+        env[2] = new char[25]; //SERVER_PROTOCOL
+        env[3] = new char[13 + filename.size()]; //SCRIPT_NAME
+        env[4] = new char[17]; //SERVER_PORT
+        env[5] = new char[14 + query.size()]; //QUERY_STRING
+
+        env[0] = (char *) SERVER_ADDR;
+        env[1] = (char *) CONTENT_TYPE;
+        env[2] = (char *) SERVER_PROTOCOL;
+        strcpy(env[3], SCRIPT_NAME);
+        strcat(env[3], filename.c_str());
+        env[4] = (char *) SERVER_PORT;
+        strcpy(env[5], QUERY_STRING);
+        strcat(env[5], query.c_str());
+        env[6] = NULL;
+        return env;
+}
+
+void CgiHandler(ConnectedSocket cs, string path) {
+    int fd;
+    int status;
+    pid_t pid = fork();
+    Check(pid, "fork");
+    if (pid > 0) {
+        wait(&status);
+        if(WIFEXITED(status)) {
+            fd = open("log.txt", O_RDONLY);
+            vector<uint8_t> vect = ToVect(fd);
+            ColorText("Server sends: ", "HTTP/1.1 200 OK");
+            cs << "HTTP/1.1 200 OK\0"; 
+            string str;
+            str += "\r\nVersion: HTTP/1.1\r\nContent-type: text/html\r\nContent-length: " + to_string(vect.size()) + "\r\n\r\n";
+            ColorText("Version: ", "HTTP/1.1");
+            ColorText("Content-length: ", to_string(vect.size()));
+            cs << str;
+            cs << vect;
+            cs.Shutdown();
+            close(fd);
+        } else {
+            ColorText("Server sends: ", "HTTP/1.1 404 Not Found");
+            cs << "HTTP/1.1 404 Not Found\0";
+        }
+        /* родитель-сервер — продолжаем асинхронную обработку событий */
+    } else if (pid == 0){
+        fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        Check(fd, "file");
+        dup2(fd, 1);
+        close(fd);
+        string filename = GetFileName(path);
+        string query = GetQuery(path);
+        char* argv[] = { (char*)filename.c_str(), NULL};
+        char** env = FillEnv(filename, query);
+
+        execve(filename.c_str(), argv, env);
+        perror("exec");
+        exit(1);
+        /* потомок — обработка CGI-программы: 
+        — формирование массива переменных окружения env
+        — перенаправление стандартного вывода во временный файл 
+        — перенаправление стандартного ввода (для метода POST) 
+        — собственно запуск программы */
+        //* execvpe ( char* script_filename, char** argv, char** env );
+        // обработка ошибок запуска
+        
+    }
+
+
+}
+
+void NotCgiHandler(ConnectedSocket cs, string path) {
     int fd;
     if (path == "index//") { fd = open("index/index.html", O_RDONLY);}
     else { fd = open(path.c_str(), O_RDONLY);}
     if (fd < 0) {
         ColorText("Server sends: ", "HTTP/1.1 404 Not Found");
-        cs.Write("HTTP/1.1 404 Not Found");
+        cs << "HTTP/1.1 404 Not Found\0";
         fd = open("index/404.html", O_RDONLY);
         Check(fd, "fd404");
     } else {
         ColorText("Server sends: ", "HTTP/1.1 200 OK");
-        cs.Write("HTTP/1.1 200 OK");
+        cs << "HTTP/1.1 200 OK\0";
     }
     vector<uint8_t> vect = ToVect(fd);
     string str;
     str += "\r\nVersion: HTTP/1.1\r\nContent-length: " + to_string(vect.size()) + "\r\n\r\n";
     ColorText("Version: ", "HTTP/1.1");
     ColorText("Content-length: ", to_string(vect.size()));
-    cs.Write(str);
-    cs.Write(vect);
+    cs << str;
+    cs << vect;
     cs.Shutdown();
     close(fd);
+}
+
+void ProcessConnection(int cd, const SocketAddress& clAddr) {
+    ConnectedSocket cs(cd);
+    string request;
+    cs >> request;
+    vector<string> lines = SplitLines(request);
+    ColorText("Client sent: ", lines[0]);
+    string path = GetPath(lines[0]);
+    ColorText("Path: ", path);
+    if (IsCgi(path)) {
+        CgiHandler(cs, path);
+    } else NotCgiHandler(cs, path);  
 }
 
 const int BACKLOG = 5;
@@ -178,10 +287,21 @@ void RunServer() {
     ColorText("\nPlease connect to ", "127.0.0.1:8080\n");
     while(1) {
         SocketAddress clAddr;
-        ProcessConnection(ss.Accept(clAddr), clAddr);
+        
+        /*
+        int ls = ss.GetSd();
+        fd_set readfds;
+        int max_d = ls;
+        FD_ZERO(&readfds);
+        FD_SET(ls, &readfds);
+        int fd;
+        */
+        int cd = ss.Accept(clAddr);
+        ProcessConnection(cd, clAddr);
         cout << BALD GREEN << "---------" << COLORENDS << endl;
     }
 }
+
 int main(){
     RunServer();
     return 0;
