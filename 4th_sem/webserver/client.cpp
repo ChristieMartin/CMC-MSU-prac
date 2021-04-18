@@ -74,6 +74,11 @@ public:
     ~Socket() { close(sd);}
 };
 
+vector<uint8_t> ToVect(int fd) {
+    vector<uint8_t> vu; char c;
+    while(read(fd, &c, 1)) vu.push_back(c);
+    return vu;
+}
 
 class ConnectedSocket: public Socket {
 public:
@@ -83,34 +88,11 @@ public:
         ColorText("Sending: ", str);
         send(sd, str.c_str(), str.length(), 0);
     }
-    void WriteFile(int fd){
-        string str;
-        str += "\nVersion: HTTP/1.1\nContent-length: ";
-        char c;
-        int len = 0;
-        while(read(fd, &c, 1)) len++;
-        lseek(fd, 0, 0);
-        ColorText("Version: ", "HTTP/1.1");
-        ColorText("Content-length: ", to_string(len));
-
-        str += to_string(len) + "\n\n";
-
-        int n = str.length();
-        char* buf = (char*) malloc(sizeof(char) * (n + 1));
-        strcpy(buf, str.c_str());
-        len = strlen(buf);
-
-        send(sd, buf, len, 0);
-        free(buf);
-
-        int buflen = 1024;
-        char bufer[buflen];
-        while((len = read(fd, bufer, buflen)) > 0){
-            send(sd, bufer, len, 0);
-        }
+    void Write(const vector<uint8_t>& bytes) {
+        send(sd, bytes.data(), bytes.size(), 0);
     }
     void Read(string& str) {
-        int buflen = 4096;
+        int buflen = 4096*2;
         char buf[buflen];
         int req = recv(sd, buf, buflen, 0);
         Check(req, "read");
@@ -179,7 +161,8 @@ class HttpRequest {
     vector<string> _lines;
 public:
     HttpRequest() {
-        _lines = {"GET / HTTP/1.1"};
+        //_lines = {"GET /123.txt HTTP/1.1\r\0"};
+        _lines = {"GET /cgi-bin/testcgi?NAME=christie&SURNAME=martin&TG=christievmartin HTTP/1.1\r\0"};
     }
     string ToString() const {
         string res;
