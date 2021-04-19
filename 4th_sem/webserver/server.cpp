@@ -171,20 +171,20 @@ string GetQuery(string path) {
 bool IsCgi(string str) { return !(str.find('?') == -1);}
 
 void WhatError(ConnectedSocket cs) {
+    string str;
     switch (errno){
         case EACCES:
-            cout << "HTTP/1.1 403 Forbidden\r\n";
-            cs << "HTTP/1.1 403 Forbidden\n";
+            str = "HTTP/1.1 403 Forbidden\n";
             break;
         case ENETRESET:
-            cout << "HTTP/1.1 503 Service Unavailable\r\n";
-            cs << "HTTP/1.1 503 Service Unavailable\n";
+            str = "HTTP/1.1 503 Service Unavailable\n";
             break;
         default:
-            cout << "HTTP/1.1 404 Not Found\r\n";
-            cs << "HTTP/1.1 404 Not Found\n";
+            str = "HTTP/1.1 404 Not Found\n";
             break;
-        }
+    }
+    cout << str;
+    cs << str;
 }
 
 
