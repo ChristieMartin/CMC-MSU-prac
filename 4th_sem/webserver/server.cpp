@@ -227,14 +227,6 @@ void CgiHandler(ConnectedSocket cs, string path) {
         execve(filename.c_str(), argv, env);
         perror("exec");
         exit(1);
-        /* потомок — обработка CGI-программы: 
-        — формирование массива переменных окружения env
-        — перенаправление стандартного вывода во временный файл 
-        — перенаправление стандартного ввода (для метода POST) 
-        — собственно запуск программы */
-        //* execvpe ( char* script_filename, char** argv, char** env );
-        // обработка ошибок запуска
-        
     }
 
 
@@ -287,15 +279,6 @@ void RunServer() {
     ColorText("\nPlease connect to ", "127.0.0.1:8080\n");
     while(1) {
         SocketAddress clAddr;
-        
-        /*
-        int ls = ss.GetSd();
-        fd_set readfds;
-        int max_d = ls;
-        FD_ZERO(&readfds);
-        FD_SET(ls, &readfds);
-        int fd;
-        */
         int cd = ss.Accept(clAddr);
         ProcessConnection(cd, clAddr);
         cout << BALD GREEN << "---------" << COLORENDS << endl;
