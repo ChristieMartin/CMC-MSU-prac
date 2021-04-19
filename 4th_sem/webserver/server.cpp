@@ -14,6 +14,7 @@
 #include <iterator>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <cerrno>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ using namespace std;
 #define COLORENDS      "\x1b[0m"
 #define BALD           "\x1b[1m"
 
+#define REQUEST     "REQUEST="
 #define SERVER_ADDR     "SERVER_ADDR=127.0.0.1"
 #define CONTENT_TYPE    "CONTENT_TYPE=text/plain"
 #define SERVER_PROTOCOL "SERVER_PROTOCOL=HTTP/1.0"
@@ -168,35 +170,55 @@ string GetQuery(string path) {
 
 bool IsCgi(string str) { return !(str.find('?') == -1);}
 
-char** FillEnv(string filename, string query) {
-        char** env = new char*[7];
-        env[0] = new char[22]; //SERVER_ADDR
-        env[1] = new char[24]; //CONTENT_TYPE
-        env[2] = new char[25]; //SERVER_PROTOCOL
-        env[3] = new char[13 + filename.size()]; //SCRIPT_NAME
-        env[4] = new char[17]; //SERVER_PORT
-        env[5] = new char[14 + query.size()]; //QUERY_STRING
-
-        env[0] = (char *) SERVER_ADDR;
-        env[1] = (char *) CONTENT_TYPE;
-        env[2] = (char *) SERVER_PROTOCOL;
-        strcpy(env[3], SCRIPT_NAME);
-        strcat(env[3], filename.c_str());
-        env[4] = (char *) SERVER_PORT;
-        strcpy(env[5], QUERY_STRING);
-        strcat(env[5], query.c_str());
-        env[6] = NULL;
-        return env;
+void WhatError(ConnectedSocket cs) {
+    switch (errno){
+        case EACCES:
+            cout << "HTTP/1.1 403 Forbidden\r\n";
+            cs << "HTTP/1.1 403 Forbidden\n";
+            break;
+        case ENETRESET:
+            cout << "HTTP/1.1 503 Service Unavailable\r\n";
+            cs << "HTTP/1.1 503 Service Unavailable\n";
+            break;
+        default:
+            cout << "HTTP/1.1 404 Not Found\r\n";
+            cs << "HTTP/1.1 404 Not Found\n";
+            break;
+        }
 }
 
-void CgiHandler(ConnectedSocket cs, string path) {
+
+char** FillEnv(string filename, string query, string request) {
+    char** env = new char*[8];
+    env[0] = new char[request.size()];
+    env[1] = new char[22]; //SERVER_ADDR
+    env[2] = new char[24]; //CONTENT_TYPE
+    env[3] = new char[25]; //SERVER_PROTOCOL
+    env[4] = new char[13 + filename.size()]; //SCRIPT_NAME
+    env[5] = new char[17]; //SERVER_PORT
+    env[6] = new char[14 + query.size()]; //QUERY_STRING
+
+    env[0] = (char *) request.c_str();
+    env[1] = (char *) SERVER_ADDR;
+    env[2] = (char *) CONTENT_TYPE;
+    env[3] = (char *) SERVER_PROTOCOL;
+    strcpy(env[4], SCRIPT_NAME);
+    strcat(env[4], filename.c_str());
+    env[5] = (char *) SERVER_PORT;
+    strcpy(env[6], QUERY_STRING);
+    strcat(env[6], query.c_str());
+    env[7] = NULL;
+    return env;
+}
+
+void CgiHandler(ConnectedSocket cs, string path, string request) {
     int fd;
     int status;
     pid_t pid = fork();
     Check(pid, "fork");
     if (pid > 0) {
         wait(&status);
-        if(WIFEXITED(status)) {
+        if(WIFEXITED(status) && WEXITSTATUS(status) == 0) {
             fd = open("log.txt", O_RDONLY);
             vector<uint8_t> vect = ToVect(fd);
             ColorText("Server sends: ", "HTTP/1.1 200 OK");
@@ -209,11 +231,7 @@ void CgiHandler(ConnectedSocket cs, string path) {
             cs << vect;
             cs.Shutdown();
             close(fd);
-        } else {
-            ColorText("Server sends: ", "HTTP/1.1 404 Not Found");
-            cs << "HTTP/1.1 404 Not Found\0";
-        }
-        /* родитель-сервер — продолжаем асинхронную обработку событий */
+        } 
     } else if (pid == 0){
         fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         Check(fd, "file");
@@ -222,9 +240,10 @@ void CgiHandler(ConnectedSocket cs, string path) {
         string filename = GetFileName(path);
         string query = GetQuery(path);
         char* argv[] = { (char*)filename.c_str(), NULL};
-        char** env = FillEnv(filename, query);
-
+        char** env = FillEnv(filename, query, request);
         execve(filename.c_str(), argv, env);
+        WhatError(cs);
+
         perror("exec");
         exit(1);
     }
@@ -265,7 +284,7 @@ void ProcessConnection(int cd, const SocketAddress& clAddr) {
     string path = GetPath(lines[0]);
     ColorText("Path: ", path);
     if (IsCgi(path)) {
-        CgiHandler(cs, path);
+        CgiHandler(cs, path, request);
     } else NotCgiHandler(cs, path);  
 }
 
