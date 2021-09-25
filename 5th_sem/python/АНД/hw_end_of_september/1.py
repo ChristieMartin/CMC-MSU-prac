@@ -3,10 +3,11 @@ ss = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ssru = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 def count_and_print(p):
     c = Counter(p)
+    maxx = max(c.values())
     summ = sum(c.values())
     c = c.most_common()
     for i in c:
-        print(i[0], " ", round(i[1]/summ, 3))
+        print(i[0], "*" * round(round(i[1]/summ, 3)*10), round(i[1]/summ, 3))
     print()
 
 f = open("text.txt", "r", encoding = "utf-8").read()
