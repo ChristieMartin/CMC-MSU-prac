@@ -56,7 +56,7 @@ cmdList tasks = (myShow 0 tasks, tasks)
     myShow 0 x = "\n" ++ myShow 1 x
     myShow numb (x:xs) = show numb ++ ". " ++ x ++ "\n" ++ myShow (numb + 1) xs
 
--- | Command to delete all comands
+-- | Command to delete all commands
 delList :: [Task] -> (String, [Task])
 delList _ = (deleteMsg, [])
 
