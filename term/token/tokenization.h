@@ -4,35 +4,80 @@
 #include <string>
 #include <vector>
 
-struct SentenceBorders { // Структура чтобы хранить позицию начала предложения и конца
+
+struct Borders { // Границы слова или предложения в изначальном тексте
     int begin;
     int end;
-    SentenceBorders(int begin, int end)
-    : begin(begin)
-    , end(end) {}
+    Borders(int begin, int end): begin(begin), end(end) {}
 };
 
-class Tokenization { // Класс ответственный за всю токенизацию
+class Sentence {
 public:
-    Tokenization(const char* source, int n); // Конструктор класс
-    std::string getSentence(int i); // Получить i-ое по порядку предложение
-    int getNumberOfSentence(); // Получить количество предложений
+    Sentence(std::wstring* text, int begin, int end): text(text), begin(begin), end(end) {
+        sentenceParsing();
+    };
+    std::wstring getSentence() {
+        return std::wstring(*text, begin, end - begin + 1);
+    }
+    int getNumberOfWords() {
+        return words.size();
+    }
+    int getNumberOfInsertedSentences() {
+        return insertedSentences.size();
+    }
+    std::wstring getWord(int i) {
+        begin = words[i - 1].begin;
+        end = words[i - 1].end;
+        return std::wstring(*text, begin, end - begin + 1);
+    }
+    std::wstring getInsertedSentence(int i) {
+        begin = insertedSentences[i - 1].begin;
+        end = insertedSentences[i - 1].end;
+        return std::wstring(*text, begin, end - begin + 1);
+    }
+    std::wstring outputFormat();
 
-    std::string getText() { // Получить изначальный текст
-        return std::string(text);
+
+private:
+    void sentenceParsing();
+
+private:
+    std::wstring* text;
+    int begin;
+    int end;
+    std::vector<Borders> words;
+    std::vector<Borders> insertedSentences;
+};
+
+
+class Tokenization {
+public:
+    Tokenization(const std::wstring& source);
+    Sentence getSentence(int i);
+    int getNumberOfSentence();
+
+    std::wstring getText() {
+        return std::wstring(text);
     }
 
-    ~Tokenization(); // Деструктор класса
 
 private:
-    void SentenceTokenization(); // Тут мы проходим по тексту и находим
-    bool isEndOfSentence(int i); // Проверяем, является ли i-ый символ в тексте концом предложения. Пока реализовано просто через проверку точки, в дальнейшем расширить
+    void textParsing();
+    bool isEndOfSentence(int i);
+
+    std::wstring previousPseudoWord(int i);
+    std::wstring nextPseudoWord(int i);
+    std::wstring nextRealWord(int i);
 
 private:
-    char* text;
+    std::wstring text;
     int length;
     int numberOfSentence;
-    std::vector<SentenceBorders> sentenceBorders; // Массив, в котором мы для каждого предложения храним начало и конец предложений
+    std::vector<Sentence> sentences;
+
+    std::vector<std::wstring> abbreviationDatabase; // База сокращений, пока пустая, потом можно
+                                                    // будет заполнить из файла
+
 };
 
 

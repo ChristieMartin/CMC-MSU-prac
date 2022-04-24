@@ -1,20 +1,28 @@
 #include <iostream>
 #include <string>
+#include <clocale>
+#include <locale>
 
 #include "tokenization.h"
 
+using namespace std;
+
 int main() {
-    std::string str = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-//    std::cin >> str;
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    locale imbue(const locale& L);
+    wcout.imbue(locale("ru_RU.UTF-8"));
 
-    Tokenization tokenization(str.c_str(), str.length());
+    std::wstring str = L"В таблице 3 приводятся результаты наших экспериментов. В первом эксперименте рассматриваются только контексты, содержащие терминальные знаки препинания. Мы выделили их в отдельную группу, поскольку большинство предложений заканчиваются именно одним из терминальных знаков. Кроме того, многие алгоритмы, описанные в литературе (см., например, [7]), не ставят своей целью анализ других знаков препинания. Во втором эксперименте рассматриваются все контексты.";
 
-    std::cout << "Original text: " + tokenization.getText() << std::endl;
-    std::cout << "Number of sentences: " << tokenization.getNumberOfSentence() << std::endl;
-    std::cout << "Sentences:" << std::endl;
+    Tokenization tokenization(str);
+
+    std::wcout << L"Изначальный текст: " + tokenization.getText() << std::endl;
+    std::wcout << L"Количество предложений: " << tokenization.getNumberOfSentence() << std::endl;
+    std::wcout << L"Предложения:" << std::endl;
     for (int i = 1; i <= tokenization.getNumberOfSentence(); ++i) {
-        std::cout << i << ") " << tokenization.getSentence(i) << std::endl;
+        std::wcout << L"------" << i << L"------" << std::endl << tokenization.getSentence(i).outputFormat()  << std::endl;
     }
+
 
     return 0;
 }
