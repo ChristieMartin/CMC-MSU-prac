@@ -66,6 +66,22 @@ public:
         return text;
     }
 
+    double getPrecision() {
+        return correct / getNumberOfSentence();
+    }
+    double getRecall() {
+        return correct / original;
+    }
+    double getF1() {
+        double P = correct / (correct + mistaken);
+        double R = correct / (correct + skipped);
+        return (2 * P * R) / (P + R);
+    }
+
+    std::map<std::wstring, int>& getAbbreviationDatabase() {
+        return abbreviationDatabase;
+    }
+
 
 private:
     void textParsing();
@@ -86,6 +102,14 @@ private:
 
     int threshold;
     std::map<std::wstring, int> abbreviationDatabase; // База сокращений, заполняемая машинным обучением
+
+    double correct;
+    double mistaken;
+    double skipped;
+    double original;
+
+    std::vector<int> mistakenEndsOfSentences;
+    std::vector<int> skippedEndsOfSentences;
 
 };
 

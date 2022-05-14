@@ -11,6 +11,10 @@ Tokenization::Tokenization(const std::wstring& source, const std::string& pathTo
     , numberOfSentence(0)
     , sentences(std::vector<Sentence>())
     , threshold(3)
+    , correct(0)
+    , mistaken(0)
+    , skipped(0)
+    , original(0)
 {
     // Заполняем базу сокращений из файла
     std::ifstream fin(pathToAbbreviationBase);
@@ -77,6 +81,19 @@ void Tokenization::textParsing() { // Считываем текст и дели�
             numberOfWords = 0;
             parsingWord = false;
 
+            if (i < length && text[i + 1] == '\n') { // проверка на корректность конца предложения при размеченом тексте
+                correct++;
+            } else {
+                mistaken++;
+                mistakenEndsOfSentences.push_back(numberOfSentence - 1);
+            }
+        }
+
+        if (text[i] == L'\n') { // число настоящих границ предложения
+            original++;
+            if (!sentenceEnded)
+                skipped++;
+                skippedEndsOfSentences.push_back(numberOfSentence);
         }
     }
 

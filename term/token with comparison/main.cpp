@@ -17,7 +17,7 @@ int main() {
     locale imbue(const locale& L);
     wcout.imbue(locale("ru_RU.UTF-8"));
 
-    std::ifstream fin("../plain_text.txt");
+    std::ifstream fin("../markup_text.txt");
 
     std::stringstream buffer;
     buffer << fin.rdbuf();
@@ -25,6 +25,10 @@ int main() {
     std::wstring s = converter.from_bytes(buffer.str());
 
     Tokenization tokenization(s, "../base.txt");
+
+    std::wcout << L"Точность: " << tokenization.getPrecision() << std::endl;
+    std::wcout << L"Полнота: " << tokenization.getRecall() << std::endl;
+    std::wcout << L"F1-мера: " << tokenization.getF1() << std::endl;
 
     fin.close();
     printf("Время работы: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
