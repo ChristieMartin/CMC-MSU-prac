@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Морковь",
+        "expiration": 5,
+        "weight": 3,
+        "price": 5.31
+    },
+    {
+        "name": "Клубника",
+        "expiration": 2,
+        "weight": 1,
+        "price": 10
+    },
+    {
+        "name": "Лук",
+        "expiration": 3,
+        "weight": 2,
+        "price": 3
+    },
+    {
+        "name": "Хурма",
+        "expiration": 4,
+        "weight": 1,
+        "price": 2
+    },
+    {
+        "name": "Ананас",
+        "expiration": 5,
+        "weight": 3,
+        "price": 4
+    },
+    {
+        "name": "Яблоко",
+        "expiration": 2,
+        "weight": 1,
+        "price": 3
+    },
+    {
+        "name": "Банан",
+        "expiration": 4,
+        "weight": 2,
+        "price": 7.1
+    },
+    {
+        "name": "Рис",
+        "expiration": 10,
+        "weight": 2,
+        "price": 8.3
+    },
+    {
+        "name": "Шоколад",
+        "expiration": 3,
+        "weight": 1,
+        "price": 10.5
+    },
+    {
+        "name": "Кофе",
+        "expiration": 7,
+        "weight": 1,
+        "price": 6.5
+    },
+    {
+        "name": "Груша",
+        "expiration": 2,
+        "weight": 1,
+        "price": 2
+    },
+    {
+        "name": "Арбуз",
+        "expiration": 3,
+        "weight": 5,
+        "price": 8
+    },
+    {
+        "name": "Абрикос",
+        "expiration": 3,
+        "weight": 1,
+        "price": 5
+    },
+    {
+        "name": "Вода",
+        "expiration": 15,
+        "weight": 5,
+        "price": 4
+    },
+    {
+        "name": "Перец",
+        "expiration": 3,
+        "weight": 2,
+        "price": 3.25
+    },
+    {
+        "name": "Огурец",
+        "expiration": 2,
+        "weight": 2,
+        "price": 3
+    },
+    {
+        "name": "Помидор",
+        "expiration": 2,
+        "weight": 2,
+        "price": 4
+    },
+    {
+        "name": "Тыква",
+        "expiration": 5,
+        "weight": 7,
+        "price": 7
+    },
+    {
+        "name": "Укроп",
+        "expiration": 5,
+        "weight": 1,
+        "price": 2
+    },
+    {
+        "name": "Щавель",
+        "expiration": 2,
+        "weight": 1,
+        "price": 4
+    }
+]
