@@ -8,13 +8,13 @@ import '../random/generator.dart';
 import 'storage.dart';
 
 class StorageRepository {
-  final double moneyAmount;
+  double moneyAmount;
   final Storage storage;
 
-  final List<SupplyOrder> supplyOrders;
-  final List<DeliveryOrder> deliveryOrders;
+  List<SupplyOrder> supplyOrders;
+  List<DeliveryOrder> deliveryOrders;
 
-  final List<Package> sendingPackagesTomorrow;
+  List<Package> sendingPackagesTomorrow;
 
   StorageRepository({
     this.moneyAmount = 0,
@@ -24,47 +24,55 @@ class StorageRepository {
     required this.storage,
   });
 
-  set supplyOrders(List<SupplyOrder> newSupplyOrders) =>
-      supplyOrders = newSupplyOrders;
+  int get currentDay => storage.currentDay;
 
-  set deliveryOrders(List<DeliveryOrder> newDeliveryOrders) =>
-      deliveryOrders = newDeliveryOrders;
-
-  set sendingPackagesTomorrow(List<Package> newSendingPackagesTomorrow) =>
-      sendingPackagesTomorrow = newSendingPackagesTomorrow;
-
-  set moneyAmount(double newMoneyAmount) {
-    if (moneyAmount < 0) {
-      moneyAmount = 0;
-    } else {
-      moneyAmount = newMoneyAmount;
+  void addProductList(List<IProduct> products, int supplyDate) {
+    for (IProduct product in products) {
+      addProduct(product, Generator.getRandomQuantity(), supplyDate);
     }
   }
 
-  int get currentDay => storage.currentDay;
-
-  set currentDay(int newCurrentDay) {
-    storage.currentDay = newCurrentDay;
+  void addProduct(IProduct product, int quantity, int supplyDate) {
+    if (quantity == 0) return;
+    Package package;
+    bool ex = false;
+    if (quantity > 10) {
+      package = Package(product: product, quantity: 10, supplyDate: supplyDate);
+    } else if (quantity > 5) {
+      package = Package(product: product, quantity: 5, supplyDate: supplyDate);
+    } else {
+      package =
+          Package(product: product, quantity: quantity, supplyDate: supplyDate);
+      ex = true;
+    }
+    storage.packages.add(package);
+    if (ex) {
+      return;
+    }
+    addProduct(product, quantity - package.quantity, supplyDate);
   }
 
   void nextDay() {
     // когда начинается новый день
-    currentDay += 1;
+    storage.removeExpired();
 
+    storage.nextDay();
+
+    createNewSupplyOrders();
     if (supplyOrders.isNotEmpty) {
       // обработка текущих заказов на поставку(которые в пути, или были открыты вчера)
       manageSupplyOrders();
     }
     // создание новых заказов на поставку
-    createNewSupplyOrders();
 
     sendingPackagesTomorrow = [];
+
+    createNewDeliveryOrder();
     if (deliveryOrders.isNotEmpty) {
       // обработка текущих заказов на доставку(которые в пути, или были открыты вчера)
       manageDeliveryOrders();
     }
     // создание новых заказов на доставку
-    createNewDeliveryOrder();
   }
 
   void manageDeliveryOrders() {
@@ -72,7 +80,7 @@ class StorageRepository {
     deliveryOrders.removeWhere((order) => order.status == OrderStatus.ready);
 
     for (DeliveryOrder order in deliveryOrders) {
-      if (order.orderingDay == order.deliveryDay) {
+      if (order.deliveryDay - currentDay == 0) {
         // обработка выполненого заказа на доставку
         manageReadyDeliveryOrder(order);
         continue;
@@ -91,10 +99,6 @@ class StorageRepository {
   }
 
   void manageReadyDeliveryOrder(DeliveryOrder order) {
-    for (OrderInfo info in order.orderInfos) {
-      // подсчет прибыли
-      moneyAmount += info.quantity * info.product.price;
-    }
     order.status = OrderStatus.ready;
   }
 
@@ -119,6 +123,11 @@ class StorageRepository {
 
         toSendPackages.add(package);
         storage.packages.remove(package);
+
+        moneyAmount += info.quantity *
+            info.product.weight *
+            info.product.price *
+            package.discount;
         // удаляю упаковку, которая будет отправлена со склада
 
         if (sum - window > info.quantity) {
@@ -126,15 +135,18 @@ class StorageRepository {
         }
       }
       // упаковки, которые будут отправлены на следующий день
-      sendingPackagesTomorrow.addAll(toSendPackages);
+      sendingPackagesTomorrow = [...sendingPackagesTomorrow, ...toSendPackages];
     }
   }
 
   void createNewDeliveryOrder() {
     // создание нового заказа на доставку с вероятностью 50%
     if (Generator.random.nextBool()) {
-      DeliveryOrder order = DeliveryOrder.randomDeliveryOrder(currentDay);
-      deliveryOrders.add(order);
+      DeliveryOrder order = DeliveryOrder.randomDeliveryOrder(
+        currentDay,
+        storage.discountedPackages.map((e) => e.product).toList(),
+      );
+      deliveryOrders = [...deliveryOrders, order];
     }
   }
 
@@ -143,7 +155,7 @@ class StorageRepository {
     supplyOrders.removeWhere((order) => order.status == OrderStatus.ready);
 
     for (SupplyOrder order in supplyOrders) {
-      if (order.supplyDay == currentDay) {
+      if (order.supplyDay - currentDay == 0) {
         manageReadySupplyOrder(order);
         continue;
       }
@@ -156,13 +168,9 @@ class StorageRepository {
 
   void manageReadySupplyOrder(SupplyOrder order) {
     // новые товары поступают на склад
-    order.orderInfo.product.weight += order.orderInfo.quantity;
-    order.orderInfo.product.expiration +=
-        10; //? это тоже стоит рандомизировать?
-
-    // подсчет убытков
-    //? стоит ли это делать, когда заказ только оформляется?
-    moneyAmount -= order.orderInfo.quantity * order.orderInfo.product.price;
+    IProduct suppliedProduct = order.orderInfo.product.copyWith(
+        expiration: order.supplyDay + order.orderInfo.product.expiration);
+    addProduct(suppliedProduct, order.orderInfo.quantity, order.supplyDay);
 
     order.status = OrderStatus.ready;
   }
@@ -170,10 +178,16 @@ class StorageRepository {
   void createNewSupplyOrders() {
     List<IProduct> needsDelivery = storage.needsSupplyProducts;
     List<SupplyOrder> res = [];
+    double orderPrice;
     for (IProduct p in needsDelivery) {
       SupplyOrder order = SupplyOrder.randomSupplyOrder(p, currentDay);
+      orderPrice = order.orderInfo.quantity *
+          order.orderInfo.product.weight *
+          order.orderInfo.product.price;
+      if (moneyAmount - orderPrice < 0) break;
+      moneyAmount -= orderPrice;
       res.add(order);
     }
-    supplyOrders.addAll(res);
+    supplyOrders = [...supplyOrders, ...res];
   }
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:package_storage/feature/day/widget/day_screen.dart';
 import 'package:package_storage/feature/product/widget/product_screen.dart';
+import 'package:package_storage/modeling/interface/interface.dart';
 import 'package:package_storage/modeling/product/i_product.dart';
 import 'package:package_storage/modeling/random/generator.dart';
-import 'package:package_storage/widgets/ui_kit/ui_kit.dart';
+import 'package:package_storage/modeling/storage/storage.dart';
+import 'package:package_storage/modeling/storage/storage_repository.dart';
+import 'package:package_storage/widgets/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -48,11 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     .where(
                         (element) => currentAllProducts.contains(element.name))
                     .toList();
-                //Generator.allProducts = newProducts;
-                //Generator.salePoints = currentAllSalePoints;
-
-                int newTotalDayAmount = _totalAmountOfDays;
-                int newStepAmount = _stepAmount;
+                Generator.allProducts = newProducts;
+                Generator.salePoints = currentAllSalePoints;
 
                 Generator.randomDayValuesMin = _randomDayValues.start.round();
                 Generator.randomDayValuesMax = _randomDayValues.end.round();
@@ -64,17 +65,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     _randomSupplyQuantity.start.round();
                 Generator.randomSupplyQuantityMin =
                     _randomSupplyQuantity.end.round();
+                Storage storage = Storage(
+                  packages: [],
+                  productsInfo: Generator.getInitProductInfos(),
+                );
 
-                // Interface(
-                //   totalAmountOfDays: totalAmountOfDays,
-                //   stepAmount: stepAmount,
-                //   storageRepository: StorageRepository(
-                //     storage: Storage(
-                //       packages: Generator.getInitPackages(),
-                //       productsInfo: Generator.getInitProductInfos(),
-                //     ),
-                //   ),
-                // );
+                StorageRepository repo = StorageRepository(
+                  storage: storage,
+                );
+                repo.addProductList(Generator.allProducts, 0);
+
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: DayScreen(
+                      interface: Interface(
+                        totalAmountOfDays: _totalAmountOfDays,
+                        stepAmount: _stepAmount,
+                        storageRepository: repo,
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
             Container(
@@ -90,11 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Divider(
-              color: AppColors.lightBrown,
-              thickness: 0.3.h,
-              height: 2.h,
-            ),
+            const AppDivider(),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -128,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       _SliderWithText(
-                        text: 'Случайное количество дней',
+                        text: 'Количество дней',
                         min: 1,
                         max: 10,
                         values: _randomDayValues,
@@ -142,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       _SliderWithText(
-                        text: 'Случайное количество в \nзаказе/упаковке',
+                        text: 'Количество в \nзаказе/упаковке',
                         min: 1,
                         max: 20,
                         values: _randomQuantity,
@@ -156,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       _SliderWithText(
-                        text: 'Случайное количество товаров\nв заказе',
+                        text: 'Количество товаров\nв заказе',
                         min: 1,
                         max: 5,
                         values: _randomSupplyQuantity,
@@ -520,13 +529,10 @@ class _SliderWithText extends StatelessWidget {
                     disabledThumbColor: AppColors.green,
                   ),
                   child: value != null
-                      ? Slider(
-                          inactiveColor: AppColors.lightBrown.withOpacity(0.5),
-                          activeColor: AppColors.lightBrown,
+                      ? AppSlider(
                           min: min.toDouble(),
                           max: max.toDouble(),
                           value: value!.toDouble(),
-                          thumbColor: AppColors.green,
                           onChanged: onChanged,
                         )
                       : RangeSlider(

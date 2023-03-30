@@ -20,15 +20,19 @@ class SupplyOrder extends Order {
   factory SupplyOrder.randomSupplyOrder(
     IProduct product,
     int currentDay,
-  ) =>
-      SupplyOrder(
-        orderInfo: OrderInfo(
-          product: product,
-          quantity: Generator.getRandomQuantity(),
+  ) {
+    int supplyDay = currentDay + Generator.getRandomDay();
+    return SupplyOrder(
+      orderInfo: OrderInfo(
+        product: product.copyWith(
+          expiration: product.expiration + supplyDay,
         ),
-        supplier: Generator.getRandomSupplier(),
-        supplyDay: Generator.getRandomDay(),
-        orderingDay: currentDay,
-        status: OrderStatus.pending,
-      );
+        quantity: Generator.getRandomQuantity(),
+      ),
+      supplier: Generator.getRandomSupplier(),
+      supplyDay: supplyDay,
+      orderingDay: currentDay,
+      status: OrderStatus.pending,
+    );
+  }
 }

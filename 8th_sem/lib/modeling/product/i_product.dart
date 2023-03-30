@@ -1,39 +1,15 @@
 class IProduct {
   final String name;
-  final int expiration;
+  int expiration;
   final int weight;
-  final double price;
+  double price;
 
-  const IProduct({
+  IProduct({
     required this.name,
     required this.expiration,
     required this.weight,
     required this.price,
   });
-
-  set weight(int newWeight) {
-    if (newWeight < 0) {
-      weight = 0;
-    } else {
-      weight = newWeight;
-    }
-  }
-
-  set price(double newPrice) {
-    if (newPrice < 0) {
-      price = 0;
-    } else {
-      price = newPrice;
-    }
-  }
-
-  set expiration(int newExpiration) {
-    if (newExpiration < 0) {
-      expiration = 0;
-    } else {
-      expiration = newExpiration;
-    }
-  }
 
   factory IProduct.fromJson(Map<String, dynamic> json) => IProduct(
         name: json['name'] ?? '',
@@ -41,4 +17,25 @@ class IProduct {
         weight: json['weight'] ?? 0,
         price: (json['price'] ?? 0).toDouble(),
       );
+
+  IProduct copyWith({
+    int? expiration,
+    double? price,
+  }) =>
+      IProduct(
+        name: name,
+        expiration: expiration ?? this.expiration,
+        weight: weight,
+        price: price ?? this.price,
+      );
+
+  @override
+  bool operator ==(other) =>
+      other is IProduct &&
+      name == other.name &&
+      weight == other.weight &&
+      expiration == other.expiration;
+
+  @override
+  int get hashCode => Object.hash(name, weight, expiration);
 }

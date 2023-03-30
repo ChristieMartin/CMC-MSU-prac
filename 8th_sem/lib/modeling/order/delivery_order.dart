@@ -1,3 +1,5 @@
+import 'package:package_storage/modeling/product/i_product.dart';
+
 import '../random/generator.dart';
 import 'order.dart';
 import 'order_info.dart';
@@ -15,11 +17,15 @@ class DeliveryOrder extends Order {
     required super.orderingDay,
   });
 
-  factory DeliveryOrder.randomDeliveryOrder(int currentDay) => DeliveryOrder(
-    salePoint: Generator.getRandomSalePoint(),
-    orderingDay: currentDay,
-    status: OrderStatus.pending,
-    deliveryDay: Generator.getRandomDay(),
-    orderInfos: Generator.getRandomOrderInfos(),
-  );
+  factory DeliveryOrder.randomDeliveryOrder(
+    int currentDay,
+    List<IProduct> discountedProducts,
+  ) =>
+      DeliveryOrder(
+        salePoint: Generator.getRandomSalePoint(),
+        orderingDay: currentDay,
+        status: OrderStatus.pending,
+        deliveryDay: currentDay + Generator.getRandomDay(),
+        orderInfos: Generator.getRandomOrderInfos(discountedProducts),
+      );
 }

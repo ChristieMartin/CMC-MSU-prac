@@ -53,12 +53,22 @@ class Generator {
   static int getRandomQuantity() =>
       random.nextInt(randomQuantityMax) + randomQuantityMin; // от 1 до 10 штук
 
-  static List<OrderInfo> getRandomOrderInfos() {
+  static List<OrderInfo> getRandomOrderInfos(
+      List<IProduct> discountedProducts) {
     int amount = random.nextInt(randomSupplyQuantityMax) +
         randomSupplyQuantityMin; // от 1 до 3 товаров в заказе
     List<OrderInfo> res = [];
+    List<IProduct> discProducts = discountedProducts;
+    discProducts.shuffle();
     for (int i = 0; i < amount; i++) {
-      IProduct randProduct = allProducts[random.nextInt(allProducts.length)];
+      IProduct randProduct;
+      if (discProducts.isNotEmpty && random.nextDouble() <= 0.75) {
+        randProduct = discProducts.first;
+        discProducts.removeAt(0);
+      } else {
+        randProduct = allProducts[random.nextInt(allProducts.length)];
+      }
+
       // беру случайный товар из списка всех товаров
       res.add(
         OrderInfo(

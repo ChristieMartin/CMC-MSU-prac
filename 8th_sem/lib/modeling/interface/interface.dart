@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../order/delivery_order.dart';
 import '../order/supply_order.dart';
 import '../product/i_product.dart';
@@ -17,8 +19,18 @@ class Interface {
 
   int get currentDay => storageRepository.currentDay;
 
+  double get moneyAmount => storageRepository.moneyAmount;
+
   List<IProduct> get currentProductsInStorage =>
       storageRepository.storage.allProducts;
+
+  List<Package> get currentPackages => storageRepository.storage.packages;
+
+  List<Package> get discountedPackages =>
+      storageRepository.storage.discountedPackages;
+
+  List<Package> get expiredPackages =>
+      storageRepository.storage.expiredPackages;
 
   List<DeliveryOrder> get deliveryOrders => storageRepository.deliveryOrders;
 
@@ -27,5 +39,13 @@ class Interface {
   List<Package> get sendingPackagesTomorrow =>
       storageRepository.sendingPackagesTomorrow;
 
-  void nextDayButtonClicked() => storageRepository.nextDay();
+  void nextDayButtonClicked() {
+    if (currentDay != totalAmountOfDays) {
+      for (int i = 0;
+          i < min(totalAmountOfDays - currentDay, stepAmount);
+          i++) {
+        storageRepository.nextDay();
+      }
+    }
+  }
 }
