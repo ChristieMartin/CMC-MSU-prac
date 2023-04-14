@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../order/order_info.dart';
-import '../product/i_product.dart';
+import '../product/product.dart';
 import '../product/package.dart';
 import '../product/product_info.dart';
 
 class Generator {
-  static List<IProduct> allProducts = [];
+  static List<Product> allProducts = [];
 
   static Random random = Random();
 
@@ -29,6 +29,8 @@ class Generator {
     'Европа',
     'Америка'
   ];
+
+  static List<String> occupiedSalePoints = [];
 
   static int randomDayValuesMin = 1;
   static int randomDayValuesMax = 1;
@@ -53,15 +55,14 @@ class Generator {
   static int getRandomQuantity() =>
       random.nextInt(randomQuantityMax) + randomQuantityMin; // от 1 до 10 штук
 
-  static List<OrderInfo> getRandomOrderInfos(
-      List<IProduct> discountedProducts) {
+  static List<OrderInfo> getRandomOrderInfos(List<Product> discountedProducts) {
     int amount = random.nextInt(randomSupplyQuantityMax) +
         randomSupplyQuantityMin; // от 1 до 3 товаров в заказе
     List<OrderInfo> res = [];
-    List<IProduct> discProducts = discountedProducts;
+    List<Product> discProducts = discountedProducts;
     discProducts.shuffle();
     for (int i = 0; i < amount; i++) {
-      IProduct randProduct;
+      Product randProduct;
       if (discProducts.isNotEmpty && random.nextDouble() <= 0.75) {
         randProduct = discProducts.first;
         discProducts.removeAt(0);
@@ -84,7 +85,7 @@ class Generator {
   static List<Package> getInitPackages() {
     // упаковки, которые подгружаются в начале моделирования
     List<Package> packages = [];
-    for (IProduct product in allProducts) {
+    for (Product product in allProducts) {
       packages.add(
         Package(
           product: product,
@@ -99,7 +100,7 @@ class Generator {
   static List<ProductInfo> getInitProductInfos() {
     // информация о товарах которая подгружается в начале моделирования
     List<ProductInfo> productsInfos = [];
-    for (IProduct product in allProducts) {
+    for (Product product in allProducts) {
       productsInfos.add(
         ProductInfo(
           product: product,
@@ -125,9 +126,9 @@ class Generator {
   static Future<void> loadProductsFromJson() async {
     //тут будет подгрузка продуктов из json файла
     var data = await rootBundle.loadString('assets/data/products.json');
-    List<IProduct> products = [];
+    List<Product> products = [];
     for (Map<String, dynamic> json in json.decode(data)) {
-      products.add(IProduct.fromJson(json));
+      products.add(Product.fromJson(json));
     }
     allProducts.addAll(products);
   }

@@ -2,37 +2,44 @@ import '../order/delivery_order.dart';
 import '../order/order.dart';
 import '../order/order_info.dart';
 import '../order/supply_order.dart';
-import '../product/i_product.dart';
+import '../product/product.dart';
 import '../product/package.dart';
 import '../random/generator.dart';
 import 'storage.dart';
 
 class StorageRepository {
   double moneyAmount;
+  double income;
+  double expenses;
   final Storage storage;
 
   List<SupplyOrder> supplyOrders;
   List<DeliveryOrder> deliveryOrders;
 
+  List<DeliveryOrder> declinedDeliveryOrders;
+
   List<Package> sendingPackagesTomorrow;
 
   StorageRepository({
     this.moneyAmount = 0,
+    this.income = 0,
+    this.expenses = 0,
     this.supplyOrders = const [],
     this.deliveryOrders = const [],
     this.sendingPackagesTomorrow = const [],
+    this.declinedDeliveryOrders = const [],
     required this.storage,
   });
 
   int get currentDay => storage.currentDay;
 
-  void addProductList(List<IProduct> products, int supplyDate) {
-    for (IProduct product in products) {
+  void addProductList(List<Product> products, int supplyDate) {
+    for (Product product in products) {
       addProduct(product, Generator.getRandomQuantity(), supplyDate);
     }
   }
 
-  void addProduct(IProduct product, int quantity, int supplyDate) {
+  void addProduct(Product product, int quantity, int supplyDate) {
     if (quantity == 0) return;
     Package package;
     bool ex = false;
@@ -78,6 +85,8 @@ class StorageRepository {
   void manageDeliveryOrders() {
     // удаление тех заказов, которые были выполнены вчера
     deliveryOrders.removeWhere((order) => order.status == OrderStatus.ready);
+    deliveryOrders
+        .removeWhere((order) => declinedDeliveryOrders.contains(order));
 
     for (DeliveryOrder order in deliveryOrders) {
       if (order.deliveryDay - currentDay == 0) {
@@ -100,42 +109,55 @@ class StorageRepository {
 
   void manageReadyDeliveryOrder(DeliveryOrder order) {
     order.status = OrderStatus.ready;
+    Generator.occupiedSalePoints.remove(order.salePoint);
   }
 
   void manageDeliveryOrder(DeliveryOrder order) {
-    // распределение упаковок для отправки
+    if (Generator.occupiedSalePoints.contains(order.salePoint)) {
+      declinedDeliveryOrders = [...declinedDeliveryOrders, order];
+    } else {
+      // распределение упаковок для отправки
 
-    // окно при котором можно отправлять при меньшем количестве килограмм товара
-    int window = 5;
+      // окно при котором можно отправлять при меньшем количестве килограмм товара
+      int window = 5;
 
-    for (OrderInfo info in order.orderInfos) {
-      List<Package> allPackages = storage.packages
-          .where((element) => element.product == info.product)
-          .toList();
-      List<Package> toSendPackages = [];
+      for (OrderInfo info in order.orderInfos) {
+        List<Package> allPackages = storage.packages
+            .where((element) => element.product == info.product)
+            .toList();
+        List<Package> toSendPackages = [];
 
-      // для подсчета общего веса для этого товара
-      int sum = 0;
+        // для подсчета общего веса для этого товара
+        int sum = 0;
 
-      for (Package package in allPackages) {
-        // сумма веса в упаковке на складе
-        sum += package.quantity * package.product.weight;
+        for (Package package in allPackages) {
+          // сумма веса в упаковке на складе
+          sum += package.quantity * package.product.weight;
 
-        toSendPackages.add(package);
-        storage.packages.remove(package);
+          toSendPackages.add(package);
+          storage.packages.remove(package);
 
-        moneyAmount += info.quantity *
-            info.product.weight *
-            info.product.price *
-            package.discount;
-        // удаляю упаковку, которая будет отправлена со склада
+          moneyAmount += info.quantity *
+              info.product.weight *
+              info.product.price *
+              package.discount;
+          income += info.quantity *
+              info.product.weight *
+              info.product.price *
+              package.discount;
+          // удаляю упаковку, которая будет отправлена со склада
 
-        if (sum - window > info.quantity) {
-          break;
+          if (sum - window > info.quantity) {
+            break;
+          }
         }
+        // упаковки, которые будут отправлены на следующий день
+        sendingPackagesTomorrow = [
+          ...sendingPackagesTomorrow,
+          ...toSendPackages
+        ];
       }
-      // упаковки, которые будут отправлены на следующий день
-      sendingPackagesTomorrow = [...sendingPackagesTomorrow, ...toSendPackages];
+      Generator.occupiedSalePoints.add(order.salePoint);
     }
   }
 
@@ -168,7 +190,7 @@ class StorageRepository {
 
   void manageReadySupplyOrder(SupplyOrder order) {
     // новые товары поступают на склад
-    IProduct suppliedProduct = order.orderInfo.product.copyWith(
+    Product suppliedProduct = order.orderInfo.product.copyWith(
         expiration: order.supplyDay + order.orderInfo.product.expiration);
     addProduct(suppliedProduct, order.orderInfo.quantity, order.supplyDay);
 
@@ -176,16 +198,17 @@ class StorageRepository {
   }
 
   void createNewSupplyOrders() {
-    List<IProduct> needsDelivery = storage.needsSupplyProducts;
+    List<Product> needsDelivery = storage.needsSupplyProducts;
     List<SupplyOrder> res = [];
     double orderPrice;
-    for (IProduct p in needsDelivery) {
+    for (Product p in needsDelivery) {
       SupplyOrder order = SupplyOrder.randomSupplyOrder(p, currentDay);
       orderPrice = order.orderInfo.quantity *
           order.orderInfo.product.weight *
           order.orderInfo.product.price;
       if (moneyAmount - orderPrice < 0) break;
       moneyAmount -= orderPrice;
+      expenses += orderPrice;
       res.add(order);
     }
     supplyOrders = [...supplyOrders, ...res];

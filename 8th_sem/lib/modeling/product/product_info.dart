@@ -1,7 +1,7 @@
-import 'i_product.dart';
+import 'product.dart';
 
 class ProductInfo {
-  final IProduct product;
+  final Product product;
   final int minQuantity;
   final int maxQuantity;
 

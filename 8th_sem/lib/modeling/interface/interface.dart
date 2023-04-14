@@ -2,7 +2,7 @@ import 'dart:math';
 
 import '../order/delivery_order.dart';
 import '../order/supply_order.dart';
-import '../product/i_product.dart';
+import '../product/product.dart';
 import '../product/package.dart';
 import '../storage/storage_repository.dart';
 
@@ -21,7 +21,11 @@ class Interface {
 
   double get moneyAmount => storageRepository.moneyAmount;
 
-  List<IProduct> get currentProductsInStorage =>
+  double get income => storageRepository.income;
+
+  double get expenses => storageRepository.expenses;
+
+  List<Product> get currentProductsInStorage =>
       storageRepository.storage.allProducts;
 
   List<Package> get currentPackages => storageRepository.storage.packages;
@@ -33,6 +37,9 @@ class Interface {
       storageRepository.storage.expiredPackages;
 
   List<DeliveryOrder> get deliveryOrders => storageRepository.deliveryOrders;
+
+  List<DeliveryOrder> get declinedDeliveryOrders =>
+      storageRepository.declinedDeliveryOrders;
 
   List<SupplyOrder> get supplyOrders => storageRepository.supplyOrders;
 

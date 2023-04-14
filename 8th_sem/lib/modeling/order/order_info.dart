@@ -1,7 +1,7 @@
-import '../product/i_product.dart';
+import '../product/product.dart';
 
 class OrderInfo {
-  final IProduct product;
+  final Product product;
   final int quantity;
 
   OrderInfo({

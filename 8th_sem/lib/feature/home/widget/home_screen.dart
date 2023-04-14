@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_storage/feature/day/widget/day_screen.dart';
 import 'package:package_storage/feature/product/widget/product_screen.dart';
 import 'package:package_storage/modeling/interface/interface.dart';
-import 'package:package_storage/modeling/product/i_product.dart';
+import 'package:package_storage/modeling/product/product.dart';
 import 'package:package_storage/modeling/random/generator.dart';
 import 'package:package_storage/modeling/storage/storage.dart';
 import 'package:package_storage/modeling/storage/storage_repository.dart';
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             _PlayButton(
               onPressed: () {
-                List<IProduct> newProducts = Generator.allProducts
+                List<Product> newProducts = Generator.allProducts
                     .where(
                         (element) => currentAllProducts.contains(element.name))
                     .toList();

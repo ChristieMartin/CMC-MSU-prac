@@ -1,6 +1,6 @@
 import 'package:package_storage/modeling/random/generator.dart';
 
-import '../product/i_product.dart';
+import '../product/product.dart';
 import '../product/package.dart';
 import '../product/product_info.dart';
 
@@ -19,8 +19,8 @@ class Storage {
     currentDay += 1;
   }
 
-  List<IProduct> get allProducts {
-    List<IProduct> res = [];
+  List<Product> get allProducts {
+    List<Product> res = [];
     for (Package p in packages) {
       res.add(p.product);
     }
@@ -56,8 +56,8 @@ class Storage {
     return res;
   }
 
-  List<IProduct> get needsSupplyProducts {
-    List<IProduct> res = expiredPackages.map((e) => e.product).toList();
+  List<Product> get needsSupplyProducts {
+    List<Product> res = expiredPackages.map((e) => e.product).toList();
     // все просроченные товары + товары, которых не хватает на складе
     for (ProductInfo p in productsInfo) {
       if (p.minQuantity > p.product.weight && !res.contains(p.product)) {
@@ -68,7 +68,6 @@ class Storage {
   }
 
   void removeExpired() {
-    print(expiredPackages.length);
     packages.removeWhere((element) => expiredPackages.contains(element));
   }
 }

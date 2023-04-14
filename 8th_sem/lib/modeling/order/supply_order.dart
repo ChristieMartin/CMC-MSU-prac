@@ -1,4 +1,4 @@
-import '../product/i_product.dart';
+import '../product/product.dart';
 import '../random/generator.dart';
 import 'order.dart';
 import 'order_info.dart';
@@ -18,7 +18,7 @@ class SupplyOrder extends Order {
 
   // случайный заказ на поставку
   factory SupplyOrder.randomSupplyOrder(
-    IProduct product,
+    Product product,
     int currentDay,
   ) {
     int supplyDay = currentDay + Generator.getRandomDay();

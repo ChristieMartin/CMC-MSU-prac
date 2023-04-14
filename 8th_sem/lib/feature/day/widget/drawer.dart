@@ -42,7 +42,7 @@ class AppDrawer extends StatelessWidget {
           ),
           _MenuItem(
             text: 'Просроченные упаковки',
-            icon: Icons.close_outlined,
+            icon: Icons.auto_delete,
             onPressed: () {
               Scaffold.of(context).closeDrawer();
               Navigator.push(
@@ -67,6 +67,22 @@ class AppDrawer extends StatelessWidget {
                   type: PageTransitionType.fade,
                   child: DeliveryOrderListScreen(
                     orders: interface.deliveryOrders,
+                  ),
+                ),
+              );
+            },
+          ),
+          _MenuItem(
+            text: 'Отмененные заказы',
+            icon: Icons.wrong_location_rounded,
+            onPressed: () {
+              Scaffold.of(context).closeDrawer();
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: DeliveryOrderListScreen(
+                    orders: interface.declinedDeliveryOrders,
                   ),
                 ),
               );

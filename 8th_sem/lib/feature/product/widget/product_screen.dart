@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:package_storage/modeling/product/i_product.dart';
+import 'package:package_storage/modeling/product/product.dart';
 import 'package:package_storage/widgets/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -8,7 +8,7 @@ class ProductScreen extends StatelessWidget {
     super.key,
     required this.product,
   });
-  final IProduct product;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
-import 'i_product.dart';
+import 'product.dart';
 
 class Package {
-  final IProduct product;
+  final Product product;
   final int quantity;
   final int supplyDate;
   double discount;

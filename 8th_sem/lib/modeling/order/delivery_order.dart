@@ -1,4 +1,4 @@
-import 'package:package_storage/modeling/product/i_product.dart';
+import 'package:package_storage/modeling/product/product.dart';
 
 import '../random/generator.dart';
 import 'order.dart';
@@ -19,7 +19,7 @@ class DeliveryOrder extends Order {
 
   factory DeliveryOrder.randomDeliveryOrder(
     int currentDay,
-    List<IProduct> discountedProducts,
+    List<Product> discountedProducts,
   ) =>
       DeliveryOrder(
         salePoint: Generator.getRandomSalePoint(),

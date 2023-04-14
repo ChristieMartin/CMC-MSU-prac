@@ -43,26 +43,47 @@ class _DayScreenState extends State<DayScreen> {
       drawer: AppDrawer(
         interface: widget.interface,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (widget.interface.currentDay ==
-              widget.interface.totalAmountOfDays) {
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              widget.interface.nextDayButtonClicked();
-            });
-          }
-        },
-        foregroundColor: AppColors.green,
-        backgroundColor: AppColors.green,
-        child: Icon(
-          widget.interface.currentDay == widget.interface.totalAmountOfDays
-              ? Icons.restart_alt
-              : Icons.navigate_next,
-          color: AppColors.white,
-          size: 4.h,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (widget.interface.currentDay != widget.interface.totalAmountOfDays)
+            FloatingActionButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              foregroundColor: AppColors.green,
+              backgroundColor: AppColors.green,
+              child: Icon(
+                Icons.restart_alt,
+                color: AppColors.white,
+                size: 4.h,
+              ),
+            ),
+          SizedBox(
+            width: 4.w,
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              if (widget.interface.currentDay ==
+                  widget.interface.totalAmountOfDays) {
+                Navigator.pop(context);
+              } else {
+                setState(() {
+                  widget.interface.nextDayButtonClicked();
+                });
+              }
+            },
+            foregroundColor: AppColors.green,
+            backgroundColor: AppColors.green,
+            child: Icon(
+              widget.interface.currentDay == widget.interface.totalAmountOfDays
+                  ? Icons.restart_alt
+                  : Icons.navigate_next,
+              color: AppColors.white,
+              size: 4.h,
+            ),
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
@@ -73,29 +94,45 @@ class _DayScreenState extends State<DayScreen> {
             children: [
               TextWithIcon(
                 icon: Icons.inventory,
-                leftText: 'Количество упаковок на складе',
+                leftText: 'Упаковки на складе',
                 rightText: widget.interface.currentPackages.length.toString(),
               ),
               TextWithIcon(
                 icon: Icons.delivery_dining,
-                leftText: 'Количество заказов на доставку',
+                leftText: 'Заказов на доставку',
                 rightText: widget.interface.deliveryOrders.length.toString(),
               ),
               TextWithIcon(
+                icon: Icons.wrong_location,
+                leftText: 'Отмененные заказы на доставку',
+                rightText:
+                    widget.interface.declinedDeliveryOrders.length.toString(),
+              ),
+              TextWithIcon(
                 icon: Icons.local_shipping,
-                leftText: 'Количество заказов на поставку',
+                leftText: 'Заказы на поставку',
                 rightText: widget.interface.supplyOrders.length.toString(),
               ),
               TextWithIcon(
                 icon: Icons.all_inbox,
-                leftText: 'Количество отправок на завтра',
+                leftText: 'Отправки на завтра',
                 rightText:
                     widget.interface.sendingPackagesTomorrow.length.toString(),
               ),
               TextWithIcon(
-                icon: Icons.monetization_on,
-                leftText: 'Доход',
+                icon: Icons.savings,
+                leftText: 'Деньги',
                 rightText: widget.interface.moneyAmount.toStringAsFixed(2),
+              ),
+              TextWithIcon(
+                icon: Icons.add_shopping_cart,
+                leftText: 'Доход',
+                rightText: widget.interface.income.toStringAsFixed(2),
+              ),
+              TextWithIcon(
+                icon: Icons.payments,
+                leftText: 'Расход',
+                rightText: widget.interface.expenses.toStringAsFixed(2),
               ),
             ],
           ),
