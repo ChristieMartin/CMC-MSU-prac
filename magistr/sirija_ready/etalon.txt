@@ -1,0 +1,37 @@
+DECLARE DESCRIPTOR (MAINWORD TIER() SSR{""} BONUS{0})
+
+$S DESCRIPTOR ( # id=6
+	0: $D{[V]} * @CopyMainWord @CopyBonus
+) DESCRIPTOR @ReplaceDesc
+
+$D{[V]} DESCRIPTOR (# id3 <-id4(root)->id5 // id5->id6
+0: $D{[S],предик} 1 @ToTier
+    [V] 3 @ToMainWord
+;
+1: [V] 2 @ToMainWord;
+2: $D{[V],1-компл} * @ToTier;
+3: $D{[S],1-компл} * @ToTier;
+) DESCRIPTOR @CheckTier @ReplaceDesc
+
+$D{[S],предик} DESCRIPTOR ( #собеседники
+     0: $D{[S]} *  @ToSSR("предик") @CopyMainWord @CopyBonus;
+) DESCRIPTOR @CheckSSRAnyWord @ReplaceDesc
+
+$D{[S],1-компл} DESCRIPTOR ( # анонимность
+0: [S] * @ToMainWord @ToSSR("1-компл")
+) DESCRIPTOR @CheckSSRAnyWord @ReplaceDesc
+
+$D{[S]} DESCRIPTOR (#все мои собеседники
+0: $D{[A],опред} 1 @ToTier;
+1: $D{[A],опред} 2 @ToTier;
+2: [S] * @ToMainWord;
+) DESCRIPTOR @CheckTier @ReplaceDesc
+
+$D{[V],1-компл} DESCRIPTOR ( # сохранить -> анонимность
+0: $D{[V]} *  @CopySSR @CopyMainWord @CopyBonus;
+) DESCRIPTOR @CheckSSRAnyWord @ReplaceDesc
+
+$D{[A],опред} DESCRIPTOR ( # все / мои
+0: [A] *  @ToMainWord @ToSSR("опред");
+) DESCRIPTOR @CheckSSRAnyWord @ReplaceDesc
+

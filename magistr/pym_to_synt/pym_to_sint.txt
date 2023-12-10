@@ -1,0 +1,13 @@
+NOUN: S
+inan: НЕОД
+neut: СРЕД
+sing: ЕД
+datv: ДАТ
+nomn: ИМ
+masc: МУЖ
+plur: МН
+accs: ВИН
+femn: ЖЕН
+gent: РОД
+ADVB: ADV
+PREP: PR

@@ -1,0 +1,142 @@
+[A ЕД ЖЕН ИМ]:{'femn', 'nomn', 'Apro', 'Qual', 'Anph', 'ADJF', 'sing', 'Subx'}
+[S ЕД ЖЕН ИМ НЕОД]:{'femn', 'nomn', 'Geox', 'Sgtm', 'masc', 'tran', 'pres', 'NOUN', 'gent', 'accs', 'Name', 'sing', 'neut', 'anim', 'inan', 'impf', 'UNKN', 'GRND'}
+[NID]:{'femn', 'nomn', 'Geox', 'Sgtm', 'masc', 'NOUN', 'gent', 'accs', 'datv', 'sing', 'plur', 'neut', 'Fixd', 'inan', 'loct', 'UNKN', 'ablt', 'Abbr'}
+[V СОВ ИЗЪЯВ ПРОШ ЕД ЖЕН]:{'femn', 'past', 'VERB', 'perf', 'indc', 'tran', 'sing'}
+[PR]:{'Sgtm', 'nomn', 'ms-f', 'indc', 'tran', 'pres', 'Arch', 'Name', 'ADJF', 'excl', 'ADJS', 'neut', 'perf', 'inan', 'ADVB', 'impf', 'impr', 'PREP', 'GRND', 'ablt', 'Abbr', 'femn', 'PRCL', 'past', 'masc', 'NOUN', 'gent', 'accs', 'Surn', 'INTJ', 'datv', 'Prdx', 'CONJ', 'plur', 'sing', 'Vpre', 'anim', 'Fixd', 'VERB', 'loct', 'Qual', 'intr'}
+[S ЕД СРЕД ВИН НЕОД]:{'Sgtm', 'nomn', 'inan', 'NOUN', 'accs', 'sing', 'neut'}
+[S ЕД ЖЕН ПР НЕОД]:{'femn', 'nomn', 'Sgtm', 'Geox', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'sing', 'inan', 'loct'}
+[S ЕД МУЖ ПР НЕОД]:{'Sgtm', 'Geox', 'nomn', 'masc', 'NOUN', 'gent', 'accs', 'Surn', 'ADJF', 'datv', 'sing', 'plur', 'neut', 'anim', 'Fixd', 'inan', 'loct', 'Qual', 'ablt', 'Abbr'}
+[S ЕД ЖЕН РОД НЕОД]:{'femn', 'nomn', 'Geox', 'Sgtm', 'masc', 'NOUN', 'gent', 'accs', 'Name', 'datv', 'plur', 'sing', 'anim', 'Fixd', 'inan', 'loct', 'UNKN', 'ablt', 'Abbr'}
+[CONJ]:{'femn', 'nomn', 'pssv', 'past', 'PRTS', 'masc', 'PRCL', 'NOUN', 'gent', 'accs', 'ADJF', 'INTJ', 'datv', 'CONJ', 'sing', 'plur', 'ADJS', 'neut', 'NPRO', 'anim', 'Fixd', 'perf', 'inan', 'ADVB', 'loct', 'Qual', 'Ques', 'Subx', 'ablt', 'Abbr'}
+[S МН ИМ ОД]:{'nomn', '3per', 'accs', 'Arch', 'ADJF', 'datv', 'plur', 'sing', 'NPRO', '2per', 'Apro', 'inan', 'loct', 'Anph', '1per', 'Subx'}
+[PART]:{'PRCL', 'Sgtm', 'nomn', 'ms-f', 'masc', 'NOUN', 'gent', 'accs', 'Surn', 'Name', 'INTJ', 'datv', 'CONJ', 'sing', 'plur', 'anim', 'Fixd', 'ADVB', 'loct', 'Qual', 'COMP', 'ablt', 'Abbr'}
+[V НЕСОВ ИЗЪЯВ ПРОШ МН]:{'femn', 'nomn', 'past', 'indc', 'tran', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'sing', 'VERB', 'inan', 'impf', 'loct', 'intr'}
+[V НЕСОВ ДЕЕПР НЕПРОШ]:{'tran', 'pres', 'impf', 'GRND'}
+[A ЕД СРЕД ВИН]:{'PRCL', 'nomn', 'pssv', 'past', 'tran', 'accs', 'ADJF', 'PRTF', 'sing', 'plur', 'neut', 'perf', 'Apro', 'inan', 'Qual', 'Subx'}
+[S МН МУЖ РОД ОД]:{'anim', 'nomn', 'masc', 'inan', 'NOUN', 'gent', 'loct', 'accs', 'ADJF', 'plur', 'sing'}
+[S МН ЖЕН ВИН НЕОД]:{'femn', 'nomn', 'tran', 'NOUN', 'gent', 'accs', 'datv', 'excl', 'plur', 'sing', 'VERB', 'inan', 'impr', 'loct', 'impf'}
+[A ЕД МУЖ ПР]:{'masc', 'loct', 'Qual', 'ADJF', 'sing', 'neut'}
+[A МН ИМ]:{'PRCL', 'nomn', 'past', 'masc', 'NOUN', 'accs', 'ADJF', 'PRTF', 'plur', 'sing', 'neut', 'NPRO', 'anim', 'Apro', 'inan', 'impf', 'Qual', 'Anph', 'intr', 'Subx', 'actv'}
+[S МН СРЕД ИМ НЕОД]:{'plur', 'nomn', 'inan', 'NOUN', 'gent', 'accs', 'sing', 'neut'}
+[V НЕСОВ ИЗЪЯВ НЕПРОШ МН 3-Л]:{'3per', 'indc', 'VERB', 'futr', 'perf', 'tran', 'pres', 'impf', 'intr', 'Infr', 'plur'}
+[S ЕД СРЕД ПР НЕОД]:{'inan', 'NOUN', 'loct', 'sing', 'neut'}
+[S ЕД МУЖ РОД НЕОД]:{'femn', 'nomn', 'Geox', 'Sgtm', 'masc', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'sing', 'Fixd', 'inan', 'loct', 'Infr', 'ablt', 'Abbr'}
+[S]:{'anim', 'masc', 'NOUN', 'gent', 'accs', 'Name', 'sing'}
+[NUM]:{'intg', 'NUMB'}
+[COM СЛ]:{'Name', 'Fixd'}
+[A ЕД МУЖ ВИН НЕОД]:{'femn', 'nomn', 'masc', 'Anum', 'NOUN', 'gent', 'accs', 'Name', 'ADJF', 'datv', 'sing', 'NPRO', 'anim', 'Apro', 'inan', 'loct', 'Qual', 'ablt'}
+[S ЕД МУЖ ВИН НЕОД]:{'nomn', 'Geox', 'masc', 'inan', 'NOUN', 'accs', 'sing'}
+[S МН МУЖ ДАТ НЕОД]:{'plur', 'datv', 'masc', 'inan', 'NOUN'}
+[V НЕСОВ ПРИЧ НЕПРОШ МН ДАТ]:{'plur', 'ablt', 'masc', 'pres', 'impf', 'intr', 'datv', 'PRTF', 'actv', 'sing', 'neut'}
+[V НЕСОВ СТРАД ПРИЧ НЕПРОШ ЕД ЖЕН ПР]:{'femn', 'pssv', 'tran', 'pres', 'impf', 'gent', 'loct', 'ADJF', 'datv', 'PRTF', 'ablt', 'sing'}
+[S МН МУЖ ТВОР ОД]:{'anim', 'masc', 'NOUN', 'plur', 'ablt'}
+[S ЕД МУЖ ИМ ОД]:{'NPRO', 'nomn', 'anim', 'masc', 'NOUN', '1per', 'sing'}
+[V СОВ ИЗЪЯВ ПРОШ ЕД МУЖ]:{'past', 'VERB', 'perf', 'masc', 'tran', 'indc', 'intr', 'sing'}
+[NUM ТВОР]:{'ablt', 'NUMR'}
+[A МН ТВОР]:{'inan', 'NOUN', 'Qual', 'ADJF', 'plur', 'ablt', 'neut'}
+[A ЕД МУЖ РОД]:{'anim', 'masc', 'Apro', 'gent', 'Qual', 'accs', 'Supr', 'ADJF', 'sing', 'Subx', 'neut'}
+[A МН ВИН НЕОД]:{'nomn', 'Apro', 'inan', 'accs', 'Qual', 'Anph', 'ADJF', 'plur'}
+[S МН МУЖ ВИН НЕОД]:{'nomn', 'masc', 'inan', 'NOUN', 'accs', 'plur'}
+[V НЕСОВ ПРИЧ ПРОШ МН ТВОР]:{'past', 'PRTF', 'actv', 'tran', 'plur', 'ablt', 'impf'}
+[V СОВ ИЗЪЯВ ПРОШ МН]:{'past', 'VERB', 'perf', 'indc', 'tran', 'intr', 'plur'}
+[S ЕД ЖЕН ВИН НЕОД]:{'femn', 'Geox', 'Sgtm', 'nomn', 'inan', 'NOUN', 'accs', 'sing'}
+[A ЕД ЖЕН РОД]:{'femn', 'nomn', 'masc', 'tran', 'NOUN', 'gent', 'accs', 'Name', 'ADJF', 'datv', 'excl', 'sing', 'NPRO', 'anim', 'VERB', 'perf', 'Apro', 'impr', 'inan', 'loct', 'Qual', 'Anph', 'Subx', 'ablt'}
+[S ЕД СРЕД РОД НЕОД]:{'3per', 'PRCL', 'nomn', 'femn', 'past', 'indc', 'masc', 'tran', 'Sgtm', 'NOUN', 'gent', 'Geox', 'accs', 'ADJF', 'datv', 'plur', 'sing', 'neut', 'NPRO', 'anim', 'Fixd', 'VERB', 'perf', 'Apro', 'inan', 'ADVB', 'loct', 'Anph', 'Subx', 'ablt', 'Abbr'}
+[S ЕД МУЖ РОД ОД]:{'femn', '3per', 'nomn', 'ms-f', 'masc', 'NOUN', 'gent', 'accs', 'Surn', 'Name', 'ADJF', 'datv', 'sing', 'plur', 'neut', 'NPRO', 'anim', 'Fixd', 'Apro', 'loct', 'Anph', 'ablt'}
+[NUM ЕД МУЖ ИМ]:{'nomn', 'masc', 'Anum', 'Apro', 'inan', 'accs', 'ADJF', 'sing'}
+[S МН РОД ОД]:{'NPRO', '3per', 'gent', 'loct', 'accs', 'Anph', 'Af-p', 'plur'}
+[S МН ЖЕН РОД НЕОД]:{'femn', 'nomn', 'masc', 'NOUN', 'gent', 'accs', 'V-ej', 'datv', 'plur', 'sing', 'neut', 'Fixd', 'inan', 'Orgn', 'loct', 'Qual', 'UNKN', 'COMP', 'ablt', 'Abbr'}
+[S МН МУЖ ИМ ОД]:{'nomn', 'anim', 'masc', 'NOUN', 'plur'}
+[V СОВ ИНФ]:{'intr', 'tran', 'perf', 'INFN'}
+[ADV]:{'3per', 'indc', 'nomn', 'tran', 'pres', 'ADJF', 'INFN', 'excl', 'ADJS', 'Prnt', 'neut', 'perf', 'inan', 'ADVB', 'impf', 'impr', 'PREP', 'ablt', 'PRCL', 'femn', 'past', 'masc', 'PRED', 'NOUN', 'gent', 'accs', 'Prdx', 'datv', 'CONJ', 'sing', 'plur', 'Vpre', 'Fixd', 'VERB', 'loct', 'Qual', 'Dmns', 'intr', 'COMP', 'Infr', 'NUMR'}
+[A МН ДАТ]:{'plur', 'masc', 'Qual', 'ADJF', 'datv', 'sing', 'Subx', 'ablt', 'neut'}
+[S МН ЖЕН ДАТ НЕОД]:{'femn', 'inan', 'NOUN', 'datv', 'plur'}
+[A ЕД ЖЕН ВИН]:{'femn', 'Apro', 'Anum', 'accs', 'Qual', 'Anph', 'ADJF', 'sing', 'Subx'}
+[V НЕСОВ ИЗЪЯВ НЕПРОШ ЕД 3-Л]:{'PRCL', '3per', 'indc', 'futr', 'tran', 'Impe', 'pres', 'PRED', 'INTJ', 'CONJ', 'sing', 'Prnt', 'VERB', 'impf', 'intr'}
+[S МН МУЖ ИМ НЕОД]:{'plur', 'nomn', 'Fixd', 'masc', 'inan', 'NOUN', 'gent', 'loct', 'accs', 'datv', 'sing', 'ablt', 'neut'}
+[V СОВ СТРАД ПРИЧ ПРОШ МН ИМ]:{'plur', 'pssv', 'past', 'nomn', 'perf', 'tran', 'inan', 'accs', 'PRTF'}
+[ADV СРАВ]:{'PREP', 'COMP', 'CONJ', 'ADVB', 'Qual'}
+[S ЕД СРЕД ИМ НЕОД]:{'PRCL', 'nomn', 'NOUN', 'accs', 'ADJF', 'sing', 'neut', 'NPRO', 'Apro', 'inan', 'Anph', 'Subx'}
+[S МН СРЕД ТВОР НЕОД]:{'inan', 'NOUN', 'plur', 'ablt', 'neut'}
+[S МН РОД]:{'anim', 'Apro', 'gent', 'loct', 'accs', 'Anph', 'ADJF', 'plur', 'Subx'}
+[NUM ИМ]:{'nomn', 'anim', 'VERB', 'tran', 'inan', 'ADVB', 'impr', 'impf', 'accs', 'Infr', 'NUMR', 'excl', 'sing'}
+[V СОВ СТРАД ПРИЧ ПРОШ МН РОД]:{'pssv', 'past', 'tran', 'NOUN', 'gent', 'accs', 'ADJF', 'plur', 'PRTF', 'Pltm', 'GNdr', 'anim', 'perf', 'inan', 'loct', 'impf'}
+[S МН МУЖ РОД НЕОД]:{'PNCT', 'nomn', 'masc', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'sing', 'Pltm', 'GNdr', 'anim', 'Fixd', 'inan', 'loct', 'ablt', 'Abbr'}
+[S ЕД МУЖ ИМ НЕОД]:{'nomn', 'masc', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'sing', 'Fixd', 'inan', 'loct', 'ablt', 'Abbr'}
+[V НЕСОВ ИЗЪЯВ ПРОШ ЕД ЖЕН]:{'femn', 'past', 'VERB', 'indc', 'tran', 'impf', 'intr', 'sing'}
+[V НЕСОВ ПРИЧ ПРОШ ЕД ЖЕН ИМ]:{'femn', 'nomn', 'past', 'impf', 'intr', 'PRTF', 'actv', 'sing'}
+[NUM РОД]:{'anim', 'NUMR', 'loct', 'gent', 'accs'}
+[A МН РОД]:{'femn', 'NOUN', 'gent', 'accs', 'ADJF', 'plur', 'anim', 'Apro', 'inan', 'loct', 'Qual', 'Anph', 'Subx'}
+[S МН ВИН НЕОД]:{'nomn', 'Apro', 'inan', 'accs', 'Anph', 'ADJF', 'plur', 'Subx'}
+[NUM ЕД ЖЕН ИМ]:{'Anum', 'femn', 'nomn', 'ADJF', 'Apro', 'sing'}
+[СЛ]:{'nomn', 'anim'}
+[S МН СРЕД РОД НЕОД]:{'inan', 'NOUN', 'gent', 'plur', 'neut'}
+[NUM ЖЕН ИМ]:{'femn', 'nomn', 'NUMR', 'inan', 'accs'}
+[A ЕД МУЖ ИМ]:{'nomn', 'pssv', 'past', 'masc', 'tran', 'accs', 'ADJF', 'PRTF', 'sing', 'perf', 'Apro', 'inan', 'Qual', 'Anph', 'Subx'}
+[V НЕСОВ ИЗЪЯВ ПРОШ ЕД МУЖ]:{'past', 'VERB', 'indc', 'masc', 'tran', 'impf', 'intr', 'sing'}
+[S МН ЖЕН ПР НЕОД]:{'femn', 'masc', 'inan', 'NOUN', 'loct', 'plur'}
+[V НЕСОВ ИЗЪЯВ ПРОШ ЕД СРЕД]:{'past', 'VERB', 'indc', 'perf', 'tran', 'impf', 'intr', 'sing', 'neut'}
+[A ЕД СРЕД ИМ]:{'nomn', 'Qual', 'accs', 'ADJF', 'sing', 'neut'}
+[A ЕД ЖЕН ПР]:{'femn', 'Sgtm', 'nomn', 'masc', 'tran', 'NOUN', 'gent', 'accs', 'Surn', 'ADJF', 'datv', 'excl', 'sing', 'anim', 'VERB', 'perf', 'Apro', 'inan', 'impr', 'loct', 'Anph', 'Subx', 'ablt'}
+[A ЕД МУЖ ТВОР]:{'masc', 'Apro', 'ADJF', 'datv', 'plur', 'ablt', 'sing', 'neut'}
+[S ЕД МУЖ ТВОР НЕОД]:{'masc', 'inan', 'NOUN', 'ADVB', 'sing', 'ablt'}
+[V НЕСОВ СТРАД ИЗЪЯВ ПРОШ ЕД МУЖ]:{'past', 'VERB', 'indc', 'masc', 'impf', 'intr', 'sing'}
+[V СОВ СТРАД ПРИЧ ПРОШ КР ЕД ЖЕН]:{'femn', 'pssv', 'past', 'PRTS', 'perf', 'sing'}
+[V СОВ ИЗЪЯВ ПРОШ ЕД СРЕД]:{'past', 'VERB', 'perf', 'indc', 'tran', 'intr', 'sing', 'neut'}
+[A КР ЕД ЖЕН]:{'femn', 'sing', 'ADJS', 'Qual'}
+[S ЕД МУЖ ДАТ ОД]:{'anim', 'masc', 'NOUN', 'Name', 'datv', 'sing'}
+[NUM ВИН НЕОД]:{'Infr', 'anim', 'nomn', 'NUMR', 'inan', 'ADVB', 'accs'}
+[A КР ЕД СРЕД]:{'ADVB', 'Qual', 'Prdx', 'CONJ', 'sing', 'ADJS', 'Prnt', 'neut'}
+[V НЕСОВ ИНФ]:{'intr', 'tran', 'perf', 'INFN', 'impf'}
+[V СОВ ИЗЪЯВ НЕПРОШ ЕД 3-Л]:{'3per', 'futr', 'VERB', 'perf', 'indc', 'tran', 'intr', 'sing'}
+[S ЕД СРЕД ТВОР НЕОД]:{'femn', 'masc', 'NOUN', 'gent', 'voct', 'accs', 'Name', 'ADJF', 'datv', 'CONJ', 'plur', 'sing', 'neut', 'NPRO', 'anim', 'Apro', 'inan', 'Anph', 'Infr', 'Subx', 'ablt'}
+[A ЕД ЖЕН ДАТ]:{'femn', 'Sgtm', 'nomn', 'masc', 'tran', 'NOUN', 'gent', 'accs', 'Surn', 'ADJF', 'datv', 'excl', 'sing', 'anim', 'VERB', 'perf', 'Apro', 'impr', 'inan', 'loct', 'Subx', 'ablt'}
+[S ЕД ЖЕН ДАТ НЕОД]:{'plur', 'femn', 'nomn', 'inan', 'NOUN', 'gent', 'loct', 'accs', 'datv', 'sing'}
+[S ЕД МУЖ ИМ]:{'nomn', 'masc', 'Apro', 'inan', 'accs', 'Anph', 'ADJF', 'sing', 'Subx'}
+[S МН ЖЕН ТВОР НЕОД]:{'plur', 'femn', 'inan', 'NOUN', 'ablt'}
+[A КР МН]:{'pssv', 'past', 'PRTS', 'perf', 'Qual', 'plur', 'ADJS'}
+[A ЕД СРЕД ТВОР]:{'plur', 'masc', 'Qual', 'ADJF', 'datv', 'sing', 'ablt', 'neut'}
+[V СОВ ДЕЕПР ПРОШ]:{'nomn', 'past', 'perf', 'masc', 'tran', 'inan', 'NOUN', 'accs', 'intr', 'GRND', 'sing'}
+[V СОВ СТРАД ПРИЧ ПРОШ КР ЕД МУЖ]:{'3per', 'futr', 'VERB', 'perf', 'indc', 'tran', 'pssv', 'past', 'PRTS', 'masc', 'plur', 'sing'}
+[V СОВ СТРАД ПРИЧ ПРОШ ЕД МУЖ ИМ]:{'pssv', 'past', 'nomn', 'perf', 'masc', 'tran', 'inan', 'accs', 'PRTF', 'sing'}
+[V НЕСОВ ПРИЧ НЕПРОШ МН РОД]:{'tran', 'pres', 'gent', 'accs', 'plur', 'PRTF', 'anim', 'impf', 'loct', 'intr', 'actv'}
+[A МН ПР]:{'pssv', 'past', 'tran', 'gent', 'accs', 'ADJF', 'PRTF', 'plur', 'anim', 'perf', 'loct', 'Qual'}
+[S МН МУЖ ПР НЕОД]:{'anim', 'masc', 'inan', 'NOUN', 'loct', 'plur'}
+[V НЕСОВ СТРАД ПРИЧ НЕПРОШ МН ПР]:{'plur', 'pssv', 'anim', 'tran', 'pres', 'impf', 'gent', 'accs', 'loct', 'ADJF', 'PRTF'}
+[A ЕД СРЕД РОД]:{'anim', 'masc', 'gent', 'accs', 'ADJF', 'sing', 'neut'}
+[V НЕСОВ СТРАД ИЗЪЯВ НЕПРОШ ЕД 3-Л]:{'intr', '3per', 'indc', 'VERB', 'pres', 'impf', 'sing'}
+[S МН СРЕД ПР НЕОД]:{'plur', 'inan', 'NOUN', 'loct', 'neut'}
+[S ЕД ЖЕН ТВОР НЕОД]:{'femn', 'inan', 'NOUN', 'sing', 'ablt'}
+[S МН ВИН ОД]:{'femn', '3per', 'nomn', 'masc', 'gent', 'accs', 'ADJF', 'datv', 'plur', 'sing', 'neut', 'NPRO', 'Fixd', 'Apro', 'loct', 'Anph', 'ablt'}
+[NUM ЖЕН ВИН]:{'femn', 'nomn', 'NUMR', 'accs'}
+[NUM ЖЕН ВИН НЕОД]:{'femn', 'nomn', 'NUMR', 'inan', 'accs'}
+[V СОВ СТРАД ПРИЧ ПРОШ КР ЕД СРЕД]:{'pssv', 'past', 'PRTS', 'perf', 'sing', 'neut'}
+[V СОВ ИЗЪЯВ НЕПРОШ МН 3-Л]:{'intr', '3per', 'futr', 'VERB', 'perf', 'indc', 'plur'}
+[NUM ПР]:{'anim', 'NUMR', 'loct', 'gent', 'accs'}
+[V НЕСОВ СТРАД ИЗЪЯВ ПРОШ ЕД ЖЕН]:{'femn', 'intr', 'past', 'VERB', 'indc', 'sing', 'impf'}
+[S ЕД СРЕД ПР]:{'Geox', 'masc', 'Apro', 'inan', 'NOUN', 'loct', 'Anph', 'ADJF', 'sing', 'Subx', 'ablt', 'neut'}
+[S МН РОД НЕОД]:{'pssv', 'past', 'tran', 'NOUN', 'gent', 'accs', 'ADJF', 'plur', 'PRTF', 'Pltm', 'GNdr', 'anim', 'perf', 'inan', 'loct'}
+[V НЕСОВ ИЗЪЯВ НАСТ МН 3-Л]:{'plur', '3per', 'indc', 'VERB', 'tran', 'pres', 'impf', 'intr', 'INTJ', 'INFN', 'sing'}
+[V СОВ СТРАД ПРИЧ ПРОШ МН ТВОР]:{'pssv', 'past', 'perf', 'PRTF', 'tran', 'ADJF', 'plur', 'ablt'}
+[V НЕСОВ ПРИЧ НЕПРОШ МН ТВОР]:{'intr', 'PRTF', 'actv', 'plur', 'pres', 'ablt', 'impf'}
+[S МН ТВОР ОД]:{'NPRO', 'Anph', '3per', 'plur', 'ablt'}
+[S ЕД СРЕД ДАТ НЕОД]:{'NPRO', 'masc', 'Apro', 'inan', 'NOUN', 'Anph', 'ADJF', 'datv', 'sing', 'Subx', 'neut'}
+[V СОВ ИЗЪЯВ НЕПРОШ ЕД 2-Л]:{'futr', 'VERB', 'perf', '2per', 'tran', 'indc', 'sing'}
+[S МН СРЕД ДАТ НЕОД]:{'plur', 'datv', 'inan', 'NOUN', 'neut'}
+[V СОВ СТРАД ПРИЧ ПРОШ ЕД ЖЕН РОД]:{'femn', 'pssv', 'past', 'perf', 'tran', 'gent', 'loct', 'datv', 'PRTF', 'ablt', 'sing'}
+[NUM МУЖ ИМ]:{'nomn', 'NUMR', 'masc', 'accs', 'neut'}
+[S МН ИМ НЕОД]:{'Geox', 'nomn', 'NOUN', 'gent', 'accs', 'datv', 'plur', 'Pltm', 'GNdr', 'Fixd', 'inan', 'loct', 'ablt', 'Abbr'}
+[A ЕД ЖЕН ТВОР]:{'femn', 'VERB', 'perf', 'Apro', 'tran', 'impr', 'gent', 'loct', 'ADJF', 'datv', 'excl', 'sing', 'ablt'}
+[S ЕД МУЖ ДАТ НЕОД]:{'masc', 'inan', 'NOUN', 'datv', 'sing'}
+[NUM ЕД МУЖ ТВОР]:{'plur', 'masc', 'Anum', 'Apro', 'ADJF', 'datv', 'sing', 'ablt', 'neut'}
+[A ЕД МУЖ ДАТ]:{'masc', 'ADJF', 'datv', 'sing', 'neut'}
+[V СОВ СТРАД ПРИЧ ПРОШ ЕД ЖЕН ИМ]:{'femn', 'pssv', 'past', 'nomn', 'perf', 'tran', 'PRTF', 'sing'}
+[NUM ЕД МУЖ ВИН НЕОД]:{'nomn', 'masc', 'Anum', 'Apro', 'inan', 'accs', 'ADJF', 'sing'}
+[COM]:{'nomn'}
+[V НЕСОВ ИЗЪЯВ НЕПРОШ МН 1-Л]:{'plur', 'intr', '1per', 'indc', 'VERB', 'pres', 'impf'}
+[S МН МУЖ ВИН ОД]:{'anim', 'masc', 'NOUN', 'gent', 'accs', 'plur'}
+[A ЕД СРЕД ДАТ]:{'masc', 'ADJF', 'datv', 'sing', 'neut'}
+[S МН ЖЕН ИМ НЕОД]:{'femn', 'nomn', 'inan', 'NOUN', 'gent', 'accs', 'plur', 'sing'}
+[S ЕД МУЖ ВИН ОД]:{'NPRO', 'gent', 'accs', 'Anph', 'sing'}
+
+

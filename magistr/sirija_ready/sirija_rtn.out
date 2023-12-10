@@ -1,0 +1,1076 @@
+DECLARE DESCRIPTOR (MAINWORD TIER() SSR{""} BONUS{0})
+
+$D{sirija}
+(
+0:
+$D{[V]} * @CopySSR @CopyMainWord @CopyBonus;
+$D{[ADV]} * @CopySSR @CopyMainWord @CopyBonus;
+$D{[CONJ]} * @CopySSR @CopyMainWord @CopyBonus;
+$D{[S]} * @CopySSR @CopyMainWord @CopyBonus;
+$D{[A]} * @CopySSR @CopyMainWord @CopyBonus;
+$D{[PR]} * @CopySSR @CopyMainWord @CopyBonus;
+) DESCRIPTOR
+
+$D{[S], предик} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S]} DESCRIPTOR
+(
+0:
+[S] 20 @ToMainWord; 
+$D{[A], композ} 23 @CopySSR @ToTier; 
+$D{[S], композ} 33 @CopySSR @ToTier; 
+$D{[S], пролепт} 23 @CopySSR @ToTier; 
+$D{[A], опред} 19 @CopySSR @ToTier; 
+$D{[S], предик} 27 @CopySSR @ToTier; 
+$D{[V], опред} 23 @CopySSR @ToTier; 
+<> 18; 
+$D{[ADV], огранич} 28 @CopySSR @ToTier; 
+$D{[ADV], вводн} 23 @CopySSR @ToTier; 
+$D{[PART], огранич} 14 @CopySSR @ToTier; 
+$D{[NUM], количест} 10 @CopySSR @ToTier; 
+1:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[S], атриб} * @CopySSR @ToTier; 
+$D{[V], опред} * @CopySSR @ToTier; 
+$D{[S], аппоз} * @CopySSR @ToTier; 
+$D{[S], сочин} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+$D{[V], релят} * @CopySSR @ToTier; 
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+$D{[PR], атриб} * @CopySSR @ToTier; 
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+<> *; 
+2:
+$D{[A], опред} * @CopySSR @ToTier; 
+$D{[S], 1-компл} 32 @CopySSR @ToTier; 
+$D{[V], релят} * @CopySSR @ToTier; 
+<> *; 
+3:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+<> *; 
+4:
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+<> *; 
+5:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+<> *; 
+6:
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+<> *; 
+7:
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+<> *; 
+8:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+<> *; 
+9:
+$D{[S], сочин} * @CopySSR @ToTier; 
+<> *; 
+10:
+[S] 5 @ToMainWord; 
+$D{[A], опред} 11 @CopySSR @ToTier; 
+11:
+[S] 2 @ToMainWord; 
+$D{[A], опред} 23 @CopySSR @ToTier; 
+12:
+[S] 21 @ToMainWord; 
+$D{[A], опред} 15 @CopySSR @ToTier; 
+13:
+[S] 6 @ToMainWord; 
+$D{[A], опред} 15 @CopySSR @ToTier; 
+14:
+[S] 9 @ToMainWord; 
+$D{[PART], огранич} 28 @CopySSR @ToTier; 
+15:
+[S] 4 @ToMainWord; 
+16:
+$D{[NID], квазиагент} 8 @CopySSR @ToTier; 
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[S], атриб} * @CopySSR @ToTier; 
+$D{[CONJ], 1-компл} * @CopySSR @ToTier; 
+$D{[V], опред} * @CopySSR @ToTier; 
+$D{[S], сочин} * @CopySSR @ToTier; 
+$D{[V], релят} 24 @CopySSR @ToTier; 
+$D{[NUM], аппоз} 25 @CopySSR @ToTier; 
+$D{[PR], атриб} * @CopySSR @ToTier; 
+$D{[S], квазиагент} 22 @CopySSR @ToTier; 
+17:
+$D{[PR], атриб} 3 @CopySSR @ToTier; 
+18:
+[S] 1 @ToMainWord; 
+$D{[A], опред} 13 @CopySSR @ToTier; 
+19:
+[S] 16 @ToMainWord; 
+$D{[S], композ} 23 @CopySSR @ToTier; 
+$D{[A], опред} 12 @CopySSR @ToTier; 
+20:
+$D{[A], квазиагент} * @CopySSR @ToTier; 
+$D{[PR], сочин} * @CopySSR @ToTier; 
+$D{[CONJ], примыкат} * @CopySSR @ToTier; 
+$D{[CONJ], вводн} * @CopySSR @ToTier; 
+$D{[ADV], сочин} * @CopySSR @ToTier; 
+$D{[PR], 2-компл} * @CopySSR @ToTier; 
+$D{[ADV], 1-компл} * @CopySSR @ToTier; 
+$D{[S], 1-компл} 17 @CopySSR @ToTier; 
+$D{[PR], 3-компл} * @CopySSR @ToTier; 
+$D{[NUM], аппрокс-колич} * @CopySSR @ToTier; 
+$D{[NID], fictit} * @CopySSR @ToTier; 
+$D{[CONJ], эксплет} * @CopySSR @ToTier; 
+$D{[PR], релят} * @CopySSR @ToTier; 
+$D{[NUM], аппоз} * @CopySSR @ToTier; 
+$D{[S], квазиагент} 26 @CopySSR @ToTier; 
+$D{[V], разъяснит} * @CopySSR @ToTier; 
+$D{[A], предик} * @CopySSR @ToTier; 
+21:
+$D{[V], опред} 22 @CopySSR @ToTier; 
+$D{[S], аппоз} * @CopySSR @ToTier; 
+$D{[NID], примыкат} * @CopySSR @ToTier; 
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+$D{[S], разъяснит} * @CopySSR @ToTier; 
+22:
+$D{[A], опред} * @CopySSR @ToTier; 
+23:
+[S] * @ToMainWord; 
+24:
+$D{[S], предик} 30 @CopySSR @ToTier; 
+25:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+26:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+27:
+[S] 7 @ToMainWord; 
+28:
+[S] 29 @ToMainWord; 
+29:
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+30:
+$D{[PR], обст} * @CopySSR @ToTier; 
+31:
+$D{[S], квазиагент} * @CopySSR @ToTier; 
+32:
+$D{[V], опред} * @CopySSR @ToTier; 
+33:
+[S] 31 @ToMainWord; 
+) DESCRIPTOR @CheckTier
+
+$D{[A], опред} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("опред") @CopyMainWord @CopyBonus; 
+[A] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NID], примыкат} DESCRIPTOR
+(
+0:
+[NID] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], 2-компл} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("2-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR]} DESCRIPTOR
+(
+0:
+$D{[S], предик} 3 @CopySSR @ToTier; 
+$D{[PART], огранич} 3 @CopySSR @ToTier; 
+[PR] 4 @ToMainWord; 
+<> 5; 
+$D{[ADV], огранич} 5 @CopySSR @ToTier; 
+1:
+$D{[S], предик} * @CopySSR @ToTier; 
+<> *; 
+2:
+$D{[PR], соотнос} * @CopySSR @ToTier; 
+<> *; 
+3:
+[PR] 7 @ToMainWord; 
+4:
+$D{[NUM], предл} 2 @CopySSR @ToTier; 
+$D{[S], предл} 8 @CopySSR @ToTier; 
+$D{[ADV], предл} * @CopySSR @ToTier; 
+5:
+[PR] 6 @ToMainWord; 
+6:
+$D{[S], предл} 1 @CopySSR @ToTier; 
+7:
+$D{[S], предл} * @CopySSR @ToTier; 
+8:
+$D{[PR], сочин} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[S], предл} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("предл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], атриб} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("атриб") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], аппоз} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("аппоз") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], 1-компл} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("1-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], примыкат} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("примыкат") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ]} DESCRIPTOR
+(
+0:
+[CONJ] 1 @ToMainWord; 
+1:
+$D{[V], соч-союзн} * @CopySSR @ToTier; 
+$D{[PART], огранич} 2 @CopySSR @ToTier; 
+$D{[V], подч-союзн} * @CopySSR @ToTier; 
+$D{[S], соч-союзн} * @CopySSR @ToTier; 
+$D{[A], соч-союзн} * @CopySSR @ToTier; 
+$D{[V], сравн-союзн} * @CopySSR @ToTier; 
+$D{[ADV], соч-союзн} * @CopySSR @ToTier; 
+2:
+$D{[PR], сравн-союзн} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[V], сравн-союзн} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("сравн-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V]} DESCRIPTOR
+(
+0:
+$D{[S], 2-компл} 16 @CopySSR @ToTier; 
+$D{[ADV], 2-компл} 48 @CopySSR @ToTier; 
+$D{[V], предик} 8 @CopySSR @ToTier; 
+$D{[PR], вводн} 66 @CopySSR @ToTier; 
+$D{[PR], 1-компл} 23 @CopySSR @ToTier; 
+$D{[NUM], предик} 33 @CopySSR @ToTier; 
+$D{[PR], обст} 11 @CopySSR @ToTier; 
+$D{[PR], 2-компл} 64 @CopySSR @ToTier; 
+$D{[S], предик} 31 @CopySSR @ToTier; 
+$D{[S], 1-компл} 70 @CopySSR @ToTier; 
+$D{[ADV], обст} 12 @CopySSR @ToTier; 
+[V] 21 @ToMainWord; 
+$D{[ADV], огранич} 37 @CopySSR @ToTier; 
+<> 32; 
+$D{[V], обст} 79 @CopySSR @ToTier; 
+$D{[PART], огранич} 14 @CopySSR @ToTier; 
+$D{[NUM], количест} 58 @CopySSR @ToTier; 
+$D{[S], вводн} 76 @CopySSR @ToTier; 
+$D{[S], обст} 69 @CopySSR @ToTier; 
+$D{[A], присвяз} 81 @CopySSR @ToTier; 
+1:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+$D{[PR], обст} * @CopySSR @ToTier; 
+$D{[S], присвяз} 80 @CopySSR @ToTier; 
+$D{[S], 1-компл} 41 @CopySSR @ToTier; 
+$D{[PR], 3-компл} 62 @CopySSR @ToTier; 
+$D{[ADV], обст} 45 @CopySSR @ToTier; 
+$D{[S], обст} * @CopySSR @ToTier; 
+<> *; 
+2:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+<> *; 
+3:
+$D{[S], 1-компл} 4 @CopySSR @ToTier; 
+<> *; 
+4:
+$D{[V], сочин} * @CopySSR @ToTier; 
+<> *; 
+5:
+$D{[CONJ], обст} * @CopySSR @ToTier; 
+<> *; 
+6:
+$D{[S], 2-компл} * @CopySSR @ToTier; 
+<> *; 
+7:
+$D{[PR], 1-компл} 62 @CopySSR @ToTier; 
+<> *; 
+8:
+$D{[PART], огранич} 37 @CopySSR @ToTier; 
+9:
+[V] 60 @ToMainWord; 
+10:
+[V] 53 @ToMainWord; 
+11:
+$D{[PR], присвяз} 57 @CopySSR @ToTier; 
+$D{[ADV], 2-компл} 57 @CopySSR @ToTier; 
+$D{[S], предик} 19 @CopySSR @ToTier; 
+$D{[S], 1-компл} 57 @CopySSR @ToTier; 
+[V] 51 @ToMainWord; 
+$D{[ADV], огранич} 57 @CopySSR @ToTier; 
+$D{[PART], огранич} 57 @CopySSR @ToTier; 
+$D{[CONJ], обст} 24 @CopySSR @ToTier; 
+12:
+$D{[PR], 1-компл} 13 @CopySSR @ToTier; 
+$D{[PR], обст} 17 @CopySSR @ToTier; 
+$D{[ADV], обст} 56 @CopySSR @ToTier; 
+[V] 3 @ToMainWord; 
+13:
+$D{[PR], вводн} 57 @CopySSR @ToTier; 
+$D{[ADV], обст} 57 @CopySSR @ToTier; 
+[V] 55 @ToMainWord; 
+14:
+$D{[S], предик} 26 @CopySSR @ToTier; 
+[V] 15 @ToMainWord; 
+15:
+$D{[S], 1-компл} 6 @CopySSR @ToTier; 
+$D{[PR], 3-компл} * @CopySSR @ToTier; 
+$D{[CONJ], предик} * @CopySSR @ToTier; 
+$D{[V], сочин} * @CopySSR @ToTier; 
+16:
+$D{[PR], обст} 8 @CopySSR @ToTier; 
+17:
+[V] 18 @ToMainWord; 
+18:
+$D{[V], предик} * @CopySSR @ToTier; 
+19:
+$D{[PR], вводн} 20 @CopySSR @ToTier; 
+[V] 42 @ToMainWord; 
+$D{[PART], огранич} 67 @CopySSR @ToTier; 
+20:
+$D{[S], обст} 33 @CopySSR @ToTier; 
+21:
+$D{[S], 2-компл} 40 @CopySSR @ToTier; 
+$D{[ADV], 2-компл} * @CopySSR @ToTier; 
+$D{[CONJ], 1-компл} * @CopySSR @ToTier; 
+$D{[ADV], 1-компл} 5 @CopySSR @ToTier; 
+$D{[S], 1-компл} 61 @CopySSR @ToTier; 
+$D{[S], агент} * @CopySSR @ToTier; 
+$D{[ADV], 3-компл} * @CopySSR @ToTier; 
+$D{[PART], огранич} 22 @CopySSR @ToTier; 
+22:
+$D{[S], предик} 54 @CopySSR @ToTier; 
+23:
+$D{[S], предик} 25 @CopySSR @ToTier; 
+24:
+$D{[S], предик} 50 @CopySSR @ToTier; 
+25:
+[V] 75 @ToMainWord; 
+26:
+[V] 27 @ToMainWord; 
+27:
+$D{[V], 1-компл} 28 @CopySSR @ToTier; 
+28:
+$D{[V], сочин} 29 @CopySSR @ToTier; 
+29:
+$D{[CONJ], сент-соч} * @CopySSR @ToTier; 
+30:
+$D{[S], 1-компл} 34 @CopySSR @ToTier; 
+[V] 63 @ToMainWord; 
+31:
+$D{[ADV], обст} 30 @CopySSR @ToTier; 
+[V] 1 @ToMainWord; 
+$D{[ADV], вводн} 9 @CopySSR @ToTier; 
+$D{[PART], огранич} 38 @CopySSR @ToTier; 
+32:
+$D{[PR], 1-компл} 57 @CopySSR @ToTier; 
+$D{[S], предик} 49 @CopySSR @ToTier; 
+$D{[S], 1-компл} 57 @CopySSR @ToTier; 
+[V] 39 @ToMainWord; 
+$D{[PART], огранич} 37 @CopySSR @ToTier; 
+33:
+[V] 42 @ToMainWord; 
+34:
+[V] 35 @ToMainWord; 
+35:
+$D{[PR], 3-компл} 36 @CopySSR @ToTier; 
+36:
+$D{[V], обст} * @CopySSR @ToTier; 
+37:
+[V] * @ToMainWord; 
+38:
+[V] 7 @ToMainWord; 
+39:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[PR], обст} * @CopySSR @ToTier; 
+$D{[PR], 2-компл} * @CopySSR @ToTier; 
+$D{[S], предик} * @CopySSR @ToTier; 
+$D{[S], 1-компл} 2 @CopySSR @ToTier; 
+40:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+41:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+$D{[V], сочин} * @CopySSR @ToTier; 
+42:
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+43:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+44:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[PR], 2-компл} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+45:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+46:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+47:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[S], предик} * @CopySSR @ToTier; 
+48:
+[V] 43 @ToMainWord; 
+49:
+[V] 44 @ToMainWord; 
+50:
+[V] 46 @ToMainWord; 
+51:
+$D{[V], 1-компл} 55 @CopySSR @ToTier; 
+$D{[S], присвяз} * @CopySSR @ToTier; 
+$D{[S], 1-компл} 52 @CopySSR @ToTier; 
+52:
+$D{[PR], 2-компл} * @CopySSR @ToTier; 
+53:
+$D{[PR], 2-компл} * @CopySSR @ToTier; 
+$D{[A], присвяз} * @CopySSR @ToTier; 
+54:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+$D{[A], присвяз} * @CopySSR @ToTier; 
+55:
+$D{[S], предик} * @CopySSR @ToTier; 
+56:
+[V] 47 @ToMainWord; 
+57:
+[V] 55 @ToMainWord; 
+58:
+[V] 59 @ToMainWord; 
+59:
+$D{[S], сочин} * @CopySSR @ToTier; 
+60:
+$D{[PR], обст} * @CopySSR @ToTier; 
+61:
+$D{[PR], обст} * @CopySSR @ToTier; 
+$D{[ADV], обст} * @CopySSR @ToTier; 
+62:
+$D{[ADV], обст} * @CopySSR @ToTier; 
+63:
+$D{[PR], 3-компл} * @CopySSR @ToTier; 
+64:
+[V] 65 @ToMainWord; 
+65:
+$D{[NID], предик} 46 @CopySSR @ToTier; 
+66:
+$D{[PR], присвяз} 57 @CopySSR @ToTier; 
+67:
+[V] 68 @ToMainWord; 
+68:
+$D{[CONJ], обст} * @CopySSR @ToTier; 
+69:
+$D{[ADV], огранич} 33 @CopySSR @ToTier; 
+70:
+$D{[PR], обст} 71 @CopySSR @ToTier; 
+$D{[ADV], вводн} 73 @CopySSR @ToTier; 
+71:
+$D{[PART], огранич} 72 @CopySSR @ToTier; 
+72:
+[V] 29 @ToMainWord; 
+73:
+$D{[S], предик} 74 @CopySSR @ToTier; 
+74:
+$D{[PART], огранич} 8 @CopySSR @ToTier; 
+75:
+$D{[S], 2-компл} * @CopySSR @ToTier; 
+76:
+$D{[S], предик} 77 @CopySSR @ToTier; 
+77:
+[V] 78 @ToMainWord; 
+78:
+$D{[S], 1-компл} 29 @CopySSR @ToTier; 
+79:
+$D{[S], предик} 10 @CopySSR @ToTier; 
+80:
+$D{[S], сент-соч} * @CopySSR @ToTier; 
+81:
+[V] 82 @ToMainWord; 
+82:
+$D{[PR], предик} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[PART], огранич} DESCRIPTOR
+(
+0:
+[PART] * @ToMainWord; 
+$D{[PART]} * @ToSSR("огранич") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], обст} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("обст") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], квазиагент} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("квазиагент") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], сочин} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], соч-союзн} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("соч-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], соч-союзн} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("соч-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], обст} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("обст") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM], предл} DESCRIPTOR
+(
+0:
+[NUM] * @ToMainWord; 
+$D{[NUM]} * @ToSSR("предл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM]} DESCRIPTOR
+(
+0:
+[NUM] 1 @ToMainWord; 
+1:
+$D{[NUM], кратн} * @CopySSR @ToTier; 
+$D{[PR], электив} * @CopySSR @ToTier; 
+$D{[S], атриб} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[S], атриб} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("атриб") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], обст} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("обст") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], подч-союзн} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("подч-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], композ} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], 1-компл} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("1-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], опред} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("опред") @CopyMainWord @CopyBonus; 
+[V] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], агент} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM], количест} DESCRIPTOR
+(
+0:
+[NUM] * @ToMainWord; 
+$D{[NUM]} * @ToSSR("количест") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], сочин} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A]} DESCRIPTOR
+(
+0:
+$D{[A], композ} 5 @CopySSR @ToTier; 
+$D{[S], композ} 5 @CopySSR @ToTier; 
+$D{[V], предик} 5 @CopySSR @ToTier; 
+$D{[PR], обст} 22 @CopySSR @ToTier; 
+[A] 8 @ToMainWord; 
+$D{[A], опред} 5 @CopySSR @ToTier; 
+$D{[S], предик} 18 @CopySSR @ToTier; 
+$D{[ADV], обст} 12 @CopySSR @ToTier; 
+$D{[ADV], огранич} 15 @CopySSR @ToTier; 
+<> 10; 
+$D{[PART], огранич} 5 @CopySSR @ToTier; 
+$D{[NUM], количест} 6 @CopySSR @ToTier; 
+1:
+$D{[A], сочин} * @CopySSR @ToTier; 
+$D{[V], сочин} * @CopySSR @ToTier; 
+<> *; 
+2:
+[A] 3 @ToMainWord; 
+3:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+4:
+$D{[V], 1-компл} * @CopySSR @ToTier; 
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+5:
+[A] * @ToMainWord; 
+6:
+[A] 1 @ToMainWord; 
+7:
+[A] 21 @ToMainWord; 
+8:
+$D{[V], предик} 9 @CopySSR @ToTier; 
+$D{[PR], электив} * @CopySSR @ToTier; 
+$D{[CONJ], предик} * @CopySSR @ToTier; 
+$D{[A], примыкат} * @CopySSR @ToTier; 
+9:
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+10:
+[A] 4 @ToMainWord; 
+11:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+12:
+$D{[S], предик} 17 @CopySSR @ToTier; 
+13:
+$D{[PR], 1-компл} 14 @CopySSR @ToTier; 
+$D{[PR], обст} * @CopySSR @ToTier; 
+$D{[S], 1-компл} * @CopySSR @ToTier; 
+14:
+$D{[V], обст} * @CopySSR @ToTier; 
+15:
+[A] 16 @ToMainWord; 
+16:
+$D{[V], предик} * @CopySSR @ToTier; 
+$D{[PR], обст} 20 @CopySSR @ToTier; 
+17:
+$D{[ADV], огранич} 19 @CopySSR @ToTier; 
+18:
+[A] 13 @ToMainWord; 
+$D{[ADV], огранич} 7 @CopySSR @ToTier; 
+19:
+[A] 11 @ToMainWord; 
+20:
+$D{[S], предик} * @CopySSR @ToTier; 
+21:
+$D{[V], сочин} * @CopySSR @ToTier; 
+22:
+$D{[ADV], обст} 23 @CopySSR @ToTier; 
+23:
+$D{[S], предик} 2 @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[A], примыкат} DESCRIPTOR
+(
+0:
+[A] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM], предик} DESCRIPTOR
+(
+0:
+$D{[NUM]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], электив} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("электив") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], 1-компл} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("1-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], обст} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("обст") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], сочин} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV]} DESCRIPTOR
+(
+0:
+$D{[PART], огранич} 6 @CopySSR @ToTier; 
+$D{[S], атриб} 9 @CopySSR @ToTier; 
+<> 5; 
+[ADV] 4 @ToMainWord; 
+$D{[ADV], обст} 3 @CopySSR @ToTier; 
+$D{[ADV], огранич} 8 @CopySSR @ToTier; 
+1:
+$D{[S], сравнит} * @CopySSR @ToTier; 
+<> *; 
+2:
+$D{[V], предик} * @CopySSR @ToTier; 
+<> *; 
+3:
+$D{[CONJ], вводн} 7 @CopySSR @ToTier; 
+4:
+$D{[PR], 1-компл} * @CopySSR @ToTier; 
+$D{[CONJ], эксплет} * @CopySSR @ToTier; 
+$D{[S], обст} * @CopySSR @ToTier; 
+$D{[CONJ], сочин} * @CopySSR @ToTier; 
+5:
+[ADV] 10 @ToMainWord; 
+6:
+[ADV] 1 @ToMainWord; 
+7:
+[ADV] 11 @ToMainWord; 
+8:
+$D{[S], предл} 9 @CopySSR @ToTier; 
+[ADV] 2 @ToMainWord; 
+9:
+[ADV] * @ToMainWord; 
+10:
+$D{[V], предик} * @CopySSR @ToTier; 
+$D{[S], сравнит} * @CopySSR @ToTier; 
+11:
+$D{[V], предик} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[CONJ], эксплет} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("эксплет") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], 2-компл} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("2-компл") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], огранич} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("огранич") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NID], квазиагент} DESCRIPTOR
+(
+0:
+[NID] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], обст} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("обст") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], соч-союзн} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("соч-союзн") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], пролепт} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("пролепт") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], сочин} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], 3-компл} DESCRIPTOR
+(
+0:
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], релят} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("релят") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], квазиагент} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("квазиагент") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM], аппрокс-колич} DESCRIPTOR
+(
+0:
+$D{[NUM]} * @ToSSR("аппрокс-колич") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NUM], кратн} DESCRIPTOR
+(
+0:
+[NUM] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], релят} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("релят") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], композ} DESCRIPTOR
+(
+0:
+[A] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], вводн} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("вводн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], присвяз} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("присвяз") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], сочин} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], 1-компл} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("1-компл") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], вводн} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("вводн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], сент-соч} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("сент-соч") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], 3-компл} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("3-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], присвяз} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("присвяз") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], сент-соч} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("сент-соч") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], предик} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], присвяз} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("присвяз") @CopyMainWord @CopyBonus; 
+[A] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], предик} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], соотнос} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("соотнос") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], предик} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+[V] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], разъяснит} DESCRIPTOR
+(
+0:
+$D{[S]} * @ToSSR("разъяснит") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], сочин} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("сочин") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[A], соч-союзн} DESCRIPTOR
+(
+0:
+$D{[A]} * @ToSSR("соч-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], предик} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("предик") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NID], предик} DESCRIPTOR
+(
+0:
+[NID] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[V], разъяснит} DESCRIPTOR
+(
+0:
+$D{[V]} * @ToSSR("разъяснит") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PART]} DESCRIPTOR
+(
+0:
+[PART] 2 @ToMainWord; 
+$D{[PART], огранич} 1 @CopySSR @ToTier; 
+$D{[ADV], огранич} 1 @CopySSR @ToTier; 
+1:
+[PART] * @ToMainWord; 
+2:
+$D{[PART], огранич} * @CopySSR @ToTier; 
+) DESCRIPTOR @CheckTier
+
+$D{[NUM], аппоз} DESCRIPTOR
+(
+0:
+[NUM] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], сравнит} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("сравнит") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], 1-компл} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("1-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[S], 2-компл} DESCRIPTOR
+(
+0:
+[S] * @ToMainWord; 
+$D{[S]} * @ToSSR("2-компл") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[CONJ], вводн} DESCRIPTOR
+(
+0:
+$D{[CONJ]} * @ToSSR("вводн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[PR], сравн-союзн} DESCRIPTOR
+(
+0:
+$D{[PR]} * @ToSSR("сравн-союзн") @CopyMainWord @CopyBonus; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], вводн} DESCRIPTOR
+(
+0:
+$D{[ADV]} * @ToSSR("вводн") @CopyMainWord @CopyBonus; 
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[ADV], предл} DESCRIPTOR
+(
+0:
+[ADV] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
+$D{[NID], fictit} DESCRIPTOR
+(
+0:
+[NID] * @ToMainWord; 
+) DESCRIPTOR @CheckSSRAnyWord
+
